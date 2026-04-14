@@ -60,7 +60,7 @@
       "rule": "Try to recreate your creative vision as best as you can.",
       "author": "Hayley Rocker",
       "visualizedBy": "Christian Schaible",
-      "finalOutputImage": [
+      "finalOutputImages": [
         "/WEBREADY/CV_FinalOutcome01.webp",
         "/WEBREADY/CV_FinalOutcome2.webp"
       ],
@@ -146,7 +146,7 @@
       "rule": "Map everything out first. Only focus on the fine-tuned layout last.",
       "author": "Kiaran Lynch",
       "visualizedBy": "Christian Schaible",
-      "finalOutputImage": "/images/craft-09a.jpg",
+      "finalOutputImage": "/WEBREADY/finetunedlayout5.webp",
       "description": "Breaking down composition into modular parts before resolving the final form.",
       "process": "I approached this piece by separating the design into individual components rather than focusing on a finalized layout from the start.\n\nEach element was developed independently, allowing for flexibility and variation. I then combined these components into 13 distinct compositions, treating them like pieces of a puzzle that could be rearranged and reinterpreted.",
       "images": [

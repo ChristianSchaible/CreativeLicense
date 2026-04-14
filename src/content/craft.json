@@ -6,7 +6,10 @@
       "rule": "Have a plan!",
       "author": "Molly Vanderbogart",
       "visualizedBy": "Christian Schaible",
-      "finalOutputImage": "/images/craft-04a.jpg",
+      "finalOutputImages": [
+        "/WEBREADY/HaveaPlanFinalOutcome02.webp",
+        "/WEBREADY/HaveAPlannedScannedEditedFInalOutcome.webp"
+      ],
       "description": "Work from a plan so the direction of the piece is defined before the making begins.",
       "process": "I mapped the structure before building it and used that plan to keep each decision aligned with the whole.",
       "images": [
@@ -29,7 +32,6 @@
         "/WEBREADY/HaveAPlan%2017.webp",
         "/WEBREADY/HaveAPlan%2018.webp",
         "/WEBREADY/HaveAPlan%2019.webp",
-        "/WEBREADY/HaveaPlanFinalOutcome02.webp",
         "/WEBREADY/HaveaPlanPrescan.webp",
         "/WEBREADY/Haveaplan(1).webp",
         "/WEBREADY/Haveaplan.webp",
@@ -109,7 +111,7 @@
       "rule": "Don't play it safe and experiment with new techniques",
       "author": "Jubilee Harman",
       "visualizedBy": "Christian Schaible",
-      "finalOutputImage": "/images/craft-08a.jpg",
+      "finalOutputImage": "/WEBREADY/ExperimentFinal-ezgif.com-video-to-gif-converter.webp",
       "description": "Use the rule as permission to try unfamiliar methods and push past the comfortable solution.",
       "process": "I deliberately introduced a new technique that risked failure so the result could move beyond familiar habits.",
       "images": [

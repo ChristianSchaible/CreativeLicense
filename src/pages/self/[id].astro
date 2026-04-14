@@ -21,6 +21,12 @@ export function getStaticPaths() {
         "finalOutputImage" in rule && typeof rule.finalOutputImage === "string"
           ? rule.finalOutputImage
           : "",
+      finalOutputImages:
+        "finalOutputImages" in rule && Array.isArray(rule.finalOutputImages)
+          ? rule.finalOutputImages
+          : "finalOutputImage" in rule && typeof rule.finalOutputImage === "string" && rule.finalOutputImage
+            ? [rule.finalOutputImage]
+            : [],
       description: rule.description,
       process: rule.process,
       images: rule.images || [],
@@ -33,12 +39,13 @@ interface Props {
   author: string;
   visualizedBy: string;
   finalOutputImage: string;
+  finalOutputImages: string[];
   description: string;
   process: string;
   images: string[];
 }
 
-const { rule, author, visualizedBy, finalOutputImage, description, process, images } = Astro.props;
+const { rule, author, visualizedBy, finalOutputImage, finalOutputImages, description, process, images } = Astro.props;
 const slug = rule
   .toLowerCase()
   .replace(/[^\w\s-]/g, "")
@@ -53,6 +60,7 @@ const transitionName = `rule-title-self-${slug}`;
       author={author}
       visualizedBy={visualizedBy}
       finalOutputImage={finalOutputImage}
+      finalOutputImages={finalOutputImages}
       description={description}
       process={process}
       images={images}

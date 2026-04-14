@@ -32,6 +32,8 @@
         setHeight: null,
         setRadius: null,
         hoverEl: null,
+        hoverToX: null,
+        hoverToY: null,
         pos: { x: -100, y: -100, tx: -100, ty: -100, px: -100, py: -100 },
         currentScale: 1,
         targetScale: 1,
@@ -135,6 +137,16 @@
           const target = getTarget(event.target);
           if (!target) return;
           state.hoverEl = target;
+          state.hoverToX = gsap.quickTo(target, "x", {
+            duration: 0.18,
+            ease: "power3.out",
+            overwrite: true,
+          });
+          state.hoverToY = gsap.quickTo(target, "y", {
+            duration: 0.18,
+            ease: "power3.out",
+            overwrite: true,
+          });
           setHoverFit(target);
         },
         true
@@ -151,6 +163,10 @@
 
           if (state.hoverEl === target) {
             state.hoverEl = null;
+            if (state.hoverToX) state.hoverToX(0);
+            if (state.hoverToY) state.hoverToY(0);
+            state.hoverToX = null;
+            state.hoverToY = null;
             state.targetScale = 1;
             state.targetWidth = BASE_SIZE;
             state.targetHeight = BASE_SIZE;
@@ -160,7 +176,7 @@
           gsap.to(target, {
             x: 0,
             y: 0,
-            duration: 0.32,
+            duration: 0.18,
             ease: "power3.out",
             overwrite: true,
           });
@@ -186,13 +202,8 @@
         state.pos.tx = cx + dx * 0.18;
         state.pos.ty = cy + dy * 0.18;
 
-        gsap.to(state.hoverEl, {
-          x: dx * 0.2,
-          y: dy * 0.2,
-          duration: 0.28,
-          ease: "power3.out",
-          overwrite: true,
-        });
+        if (state.hoverToX) state.hoverToX(dx * 0.2);
+        if (state.hoverToY) state.hoverToY(dy * 0.2);
       });
 
       requestAnimationFrame(update);

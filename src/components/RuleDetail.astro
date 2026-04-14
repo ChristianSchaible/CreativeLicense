@@ -225,14 +225,35 @@ const outputImages = finalOutputImages?.length ? finalOutputImages : finalOutput
     gap: 2rem;
   }
 
+  .rule-detail__final-output .rule-detail__gallery {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0.25rem;
+    scrollbar-width: thin;
+  }
+
   .rule-detail__figure {
     margin: 0;
+  }
+
+  .rule-detail__final-output .rule-detail__figure {
+    flex: 0 0 auto;
   }
 
   .rule-detail__img {
     width: 100%;
     height: auto;
     display: block;
+  }
+
+  .rule-detail__final-output .rule-detail__img {
+    width: auto;
+    height: clamp(180px, 28vw, 260px);
+    max-width: none;
+    object-fit: cover;
   }
 
   .rule-detail__footer {

@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../utils/withBase";
+
 interface Props {
   rule: string;
   author: string;
@@ -37,7 +39,7 @@ const {
     <div class="rule-detail__content">
       {finalOutputImage && (
         <figure class="rule-detail__section rule-detail__final-output">
-          <img src={finalOutputImage} alt={`Final output for ${rule}`} class="rule-detail__img" />
+          <img src={withBase(finalOutputImage)} alt={`Final output for ${rule}`} class="rule-detail__img" />
         </figure>
       )}
 
@@ -72,7 +74,7 @@ const {
           <div class="rule-detail__gallery">
             {images.map((image) => (
               <figure class="rule-detail__figure">
-                <img src={image} alt={rule} class="rule-detail__img" />
+                <img src={withBase(image)} alt={rule} class="rule-detail__img" />
               </figure>
             ))}
           </div>

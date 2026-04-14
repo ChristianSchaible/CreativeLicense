@@ -1,17 +1,18 @@
 ---
 // Navigation component with sticky behavior and mobile hamburger menu
+import { withBase } from "../utils/withBase";
 
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
 const isActive = (href: string) => {
-  const normalizedHref = href.replace(/\/$/, "") || "/";
+  const normalizedHref = withBase(href).replace(/\/$/, "") || "/";
   return currentPath === normalizedHref || (normalizedHref !== "/" && currentPath.startsWith(`${normalizedHref}/`));
 };
 ---
 
 <nav class="nav" transition:persist transition:name="site-nav">
   <div class="nav-container">
-    <a href="/" class="nav-brand" data-magnetic>Creative Licence</a>
+    <a href={withBase("/")} class="nav-brand" data-magnetic>Creative Licence</a>
 
     <input
       type="checkbox"
@@ -29,13 +30,13 @@ const isActive = (href: string) => {
 
     <ul class="nav-menu" id="site-nav-menu">
       <li>
-        <a href="/work" class={isActive("/work") ? "is-active" : undefined} aria-current={isActive("/work") ? "page" : undefined} data-magnetic>Work</a>
+        <a href={withBase("/work")} class={isActive("/work") ? "is-active" : undefined} aria-current={isActive("/work") ? "page" : undefined} data-magnetic>Work</a>
       </li>
       <li>
-        <a href="/craft" class={isActive("/craft") ? "is-active" : undefined} aria-current={isActive("/craft") ? "page" : undefined} data-magnetic>Craft</a>
+        <a href={withBase("/craft")} class={isActive("/craft") ? "is-active" : undefined} aria-current={isActive("/craft") ? "page" : undefined} data-magnetic>Craft</a>
       </li>
       <li>
-        <a href="/self" class={isActive("/self") ? "is-active" : undefined} aria-current={isActive("/self") ? "page" : undefined} data-magnetic>Self</a>
+        <a href={withBase("/self")} class={isActive("/self") ? "is-active" : undefined} aria-current={isActive("/self") ? "page" : undefined} data-magnetic>Self</a>
       </li>
     </ul>
   </div>

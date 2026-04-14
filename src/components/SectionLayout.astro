@@ -1,5 +1,6 @@
 ---
 import RuleCard from "@components/RuleCard.astro";
+import { withBase } from "../utils/withBase";
 
 interface Rule {
   rule: string;
@@ -149,7 +150,7 @@ const descriptionColumns = (() => {
           rule={rule.rule}
           author={rule.author}
           visualizedBy={rule.visualizedBy}
-          href={`/${section}/${slug}`}
+          href={withBase(`/${section}/${slug}`)}
           transitionName={transitionName}
         />
       );

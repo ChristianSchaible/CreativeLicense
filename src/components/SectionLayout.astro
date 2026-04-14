@@ -308,20 +308,22 @@ const descriptionColumns = (() => {
   --grad-4-b: rgb(0 200 255);
   --grad-accent-a: rgb(0 51 255);
   --grad-accent-b: rgb(4 134 255);
-  --noise-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1000' numOctaves='10' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='4000' height='4000' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E");
+  --noise-texture: repeating-linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.03) 0 1px,
+    transparent 1px 4px
+  );
   background-image: 
     var(--noise-texture),
     linear-gradient(115deg, var(--grad-base-a), var(--grad-base-b)), 
     radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), var(--grad-1-a), var(--grad-1-b)), 
-    radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), var(--grad-2-a), var(--grad-2-b)), 
-    radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), var(--grad-3-a), var(--grad-3-b)), 
-    radial-gradient(100% 100% at calc(100% - var(--x)) calc(30% - var(--y)), var(--grad-4-a), var(--grad-4-b)), 
+    radial-gradient(110% 130% at calc(84% - var(--x)) calc(10% - var(--y)), var(--grad-3-a), var(--grad-3-b)), 
     linear-gradient(60deg, var(--grad-accent-a), var(--grad-accent-b));
-  background-blend-mode: soft-light, overlay, overlay, difference, difference, difference, normal;
-  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-  background-position: 0 0, center center, center center, center center, center center, center center, center center;
-  background-size: 180px 180px, cover, cover, cover, cover, cover, cover;
-  background-attachment: fixed;
+  background-blend-mode: soft-light, overlay, overlay, normal;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  background-position: 0 0, center center, center center, center center;
+  background-size: auto, cover, cover, cover;
+  background-attachment: scroll;
   }
 </style>
 
@@ -354,12 +356,26 @@ const descriptionColumns = (() => {
   document.addEventListener("astro:page-load", setSubtitleShrinkFromScroll);
   window.addEventListener("scroll", setSubtitleShrinkFromScroll, { passive: true });
 
-  document.body.addEventListener("pointermove", (e) => {
-    const el = e.currentTarget;
-    if (!(el instanceof HTMLBodyElement)) return;
-    const { clientX: x, clientY: y } = e;
-    const { top: t, left: l, width: w, height: h } = el.getBoundingClientRect();
-    el.style.setProperty("--posX", String(x - l - w / 2));
-    el.style.setProperty("--posY", String(y - t - h / 2));
-  });
+  let pointerFrame = 0;
+  let latestPointerX = 0;
+  let latestPointerY = 0;
+
+  const updatePointerBackground = () => {
+    pointerFrame = 0;
+    document.body.style.setProperty("--posX", String(latestPointerX - window.innerWidth / 2));
+    document.body.style.setProperty("--posY", String(latestPointerY - window.innerHeight / 2));
+  };
+
+  document.body.addEventListener(
+    "pointermove",
+    (e) => {
+      latestPointerX = e.clientX;
+      latestPointerY = e.clientY;
+
+      if (!pointerFrame) {
+        pointerFrame = window.requestAnimationFrame(updatePointerBackground);
+      }
+    },
+    { passive: true }
+  );
 </script>

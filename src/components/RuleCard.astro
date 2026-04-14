@@ -1,33 +1,28 @@
 ---
 interface Props {
   rule: string;
-  description: string;
-  process: string;
   author?: string;
   visualizedBy?: string;
-  images?: string[];
   href?: string;
   transitionName?: string;
 }
 
 const {
   rule,
-  description,
-  process,
   author = "Unknown",
   visualizedBy = "Unknown",
-  images = [],
   href,
   transitionName,
 } = Astro.props;
 
 const ruleUrl = href || '#';
+const titleId = `rule-card-${rule.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-")}`;
 ---
 
-<a href={ruleUrl} class="rule-card-link">
+<a href={ruleUrl} class="rule-card-link" aria-labelledby={titleId}>
   <article class="rule-card" transition:name={transitionName}>
     <header class="rule-card__header">
-      <h2 class="rule-card__title">"{rule}"</h2>
+      <h2 class="rule-card__title" id={titleId}>"{rule}"</h2>
     </header>
     <section class="rule-card__meta" aria-label="Rule credits">
       <div class="rule-card__meta-row">
@@ -47,10 +42,12 @@ const ruleUrl = href || '#';
     text-decoration: none;
     color: inherit;
     display: block;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.2s ease;
   }
 
   .rule-card {
+    display: flex;
+    flex-direction: column;
     padding-block: 1rem;
     border: 1px solid var(--color-accent);
     border-radius: var(--radius-inner);
@@ -58,21 +55,29 @@ const ruleUrl = href || '#';
     margin-bottom: var(--margin);
     margin-left: var(--margin);
     font-variation-settings: "wght" 200, "wdth" 110, "slnt" 0;
-
+    transition: transform 0.3s ease, box-shadow 0.3s ease, font-variation-settings 0.3s ease;
   }
+
   .rule-card:hover {
-    transition: all 0.3s ease-in-out;
-    scale: 1.01;
+    transform: scale(1.01);
     background: none;
-    box-shadow:  0px 14px 84px 0px rgb(255, 255, 255);
+    box-shadow: 0 14px 84px 0 rgb(255, 255, 255);
     font-variation-settings: "wght" 700, "wdth" 110, "slnt" 0;
+  }
 
+  .rule-card-link:hover,
+  .rule-card-link:focus-visible {
+    opacity: 0.95;
+  }
 
+  .rule-card-link:focus-visible .rule-card {
+    outline: 3px solid var(--color-focus-ring);
+    outline-offset: 3px;
   }
 
   .rule-card__header {
-    margin: var(--margin)
-    }
+    margin: var(--margin);
+  }
 
   .rule-card__title {
     font-family: var(--font-headings);
@@ -111,5 +116,16 @@ const ruleUrl = href || '#';
     font-family: var(--font-headings);
     font-size: clamp(1rem, 1.8vw, 1.25rem);
     line-height: 1.1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rule-card-link,
+    .rule-card {
+      transition: none;
+    }
+
+    .rule-card:hover {
+      transform: none;
+    }
   }
 </style>

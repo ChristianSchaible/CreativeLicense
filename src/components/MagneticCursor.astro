@@ -68,6 +68,9 @@
       state.setWidth = gsap.quickSetter(cursorEl, "width", "px");
       state.setHeight = gsap.quickSetter(cursorEl, "height", "px");
       state.setRadius = gsap.quickSetter(cursorEl, "borderRadius", "px");
+      state.hoverEl = null;
+      state.hoverToX = null;
+      state.hoverToY = null;
       cursorEl.style.display = "block";
       document.body.classList.add("has-magnetic-cursor");
     };
@@ -211,6 +214,7 @@
 
     refreshCursorEl();
     document.addEventListener("astro:page-load", refreshCursorEl);
+    document.addEventListener("astro:after-swap", refreshCursorEl);
   }
 </script>
 

@@ -13,16 +13,21 @@ const isActive = (href: string) => {
   <div class="nav-container">
     <a href="/" class="nav-brand" data-magnetic>Creative Licence</a>
 
-    <!-- Hamburger menu toggle for mobile -->
-    <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+    <input
+      type="checkbox"
+      id="nav-toggle"
+      class="nav-toggle"
+      aria-controls="site-nav-menu"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+    />
     <label for="nav-toggle" class="nav-toggle-label">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
     </label>
 
-    <!-- Navigation menu -->
-    <ul class="nav-menu">
+    <ul class="nav-menu" id="site-nav-menu">
       <li>
         <a href="/work" class={isActive("/work") ? "is-active" : undefined} aria-current={isActive("/work") ? "page" : undefined} data-magnetic>Work</a>
       </li>
@@ -50,9 +55,9 @@ const isActive = (href: string) => {
     max-width: var(--size-page-width);
     margin: 0;
     padding: 0 var(--size-page-padding);
-    display: flex;;
+    display: flex;
     align-items: center;
-    justify-content:baseline;
+    justify-content: flex-start;
     height: 60px;
   }
 
@@ -68,7 +73,16 @@ const isActive = (href: string) => {
 
   /* Hamburger toggle (hidden on desktop) */
   .nav-toggle {
-    display: none;
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
   }
 
   .nav-toggle-label {
@@ -89,6 +103,7 @@ const isActive = (href: string) => {
   /* Navigation menu */
   .nav-menu {
     display: flex;
+    align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -111,11 +126,22 @@ const isActive = (href: string) => {
   .nav-menu a[aria-current="page"] {
     color: var(--color-accent);
     font-variation-settings: "wdth" 900, "wght" 700, "slnt" 0;
-    transition: all 0.5s
+    transition: color 0.5s ease, font-variation-settings 0.5s ease;
+  }
+
+  .nav-menu a:focus-visible,
+  .nav-brand:focus-visible,
+  .nav-toggle:focus-visible + .nav-toggle-label {
+    outline: 3px solid var(--color-focus-ring);
+    outline-offset: 4px;
   }
 
   /* Mobile styles */
   @media (max-width: 768px) {
+    .nav-container {
+      justify-content: space-between;
+    }
+
     .nav-toggle-label {
       display: flex;
     }
@@ -132,7 +158,8 @@ const isActive = (href: string) => {
       transform: translateY(-100%);
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+      gap: 0.5rem;
     }
 
     .nav-menu li {
@@ -164,6 +191,14 @@ const isActive = (href: string) => {
 <script>
   const normalizePath = (path: string) => path.replace(/\/+$/, "") || "/";
 
+  const navToggle = document.getElementById("nav-toggle") as HTMLInputElement | null;
+  const navMenu = document.getElementById("site-nav-menu");
+
+  const syncToggleState = () => {
+    if (!navToggle) return;
+    navToggle.setAttribute("aria-expanded", navToggle.checked ? "true" : "false");
+  };
+
   const updateActiveNavLink = () => {
     const currentPath = normalizePath(window.location.pathname);
     const navLinks = document.querySelectorAll<HTMLAnchorElement>(".nav-menu a");
@@ -182,6 +217,18 @@ const isActive = (href: string) => {
     });
   };
 
+  navToggle?.addEventListener("change", syncToggleState);
+  navMenu?.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLAnchorElement)) return;
+    if (navToggle && navToggle.checked) {
+      navToggle.checked = false;
+      syncToggleState();
+    }
+  });
+
   updateActiveNavLink();
   document.addEventListener("astro:page-load", updateActiveNavLink);
+  document.addEventListener("astro:after-swap", updateActiveNavLink);
+  syncToggleState();
 </script>

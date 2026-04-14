@@ -121,7 +121,11 @@ const descriptionColumns = (() => {
 })();
 ---
 
-<section class={`section-layout section-layout--${section}`}>
+<section
+  class={`section-layout section-layout--${section}`}
+  style={`--grad-base-a: ${palette.baseA}; --grad-base-b: ${palette.baseB}; --grad-1-a: ${palette.g1A}; --grad-1-b: ${palette.g1B}; --grad-2-a: ${palette.g2A}; --grad-2-b: ${palette.g2B}; --grad-3-a: ${palette.g3A}; --grad-3-b: ${palette.g3B}; --grad-4-a: ${palette.g4A}; --grad-4-b: ${palette.g4B}; --grad-accent-a: ${palette.accentA}; --grad-accent-b: ${palette.accentB};`}
+>
+  <div class="section-layout__ambient" aria-hidden="true"></div>
   <header class="section-layout__header">
     {description && (
       <div class="section-layout__description">
@@ -143,11 +147,8 @@ const descriptionColumns = (() => {
       return (
         <RuleCard
           rule={rule.rule}
-          description={rule.description}
-          process={rule.process}
           author={rule.author}
           visualizedBy={rule.visualizedBy}
-          images={rule.images}
           href={`/${section}/${slug}`}
           transitionName={transitionName}
         />
@@ -166,6 +167,28 @@ const descriptionColumns = (() => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .section-layout__ambient {
+    position: fixed;
+    top: 14vh;
+    right: -6vw;
+    width: min(72vw, 780px);
+    height: min(72vw, 780px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.82;
+    filter: blur(34px) saturate(1.6);
+    background-image:
+      radial-gradient(circle at 32% 28%, var(--grad-1-a), transparent 62%),
+      radial-gradient(circle at 72% 68%, var(--grad-3-a), transparent 58%),
+      linear-gradient(135deg, var(--grad-accent-a), var(--grad-accent-b));
+    background-blend-mode: screen, screen, normal;
+    animation: section-ambient-float 18s ease-in-out infinite alternate;
+    will-change: transform, opacity;
   }
 
   .section-layout__header {
@@ -294,63 +317,109 @@ const descriptionColumns = (() => {
   :global(body) {
   min-height: 100vh;
   margin: 0;
-  --grad-base-a: rgb(231 227 246);
-  --grad-base-b: rgb(0 3 45);
-  --grad-1-a: rgb(231 227 246);
-  --grad-1-b: rgb(0 3 45);
-  --grad-2-a: rgb(0 0 255);
-  --grad-2-b: rgb(0 68 255);
-  --grad-3-a: rgb(0 2 137);
-  --grad-3-b: rgb(6 87 227);
-  --grad-4-a: rgb(0 76 255);
-  --grad-4-b: rgb(0 200 255);
-  --grad-accent-a: rgb(0 51 255);
-  --grad-accent-b: rgb(4 134 255);
-  --noise-texture: repeating-linear-gradient(
-    115deg,
-    rgba(255, 255, 255, 0.03) 0 1px,
-    transparent 1px 4px
-  );
-  background-image: 
-    var(--noise-texture),
-    linear-gradient(115deg, var(--grad-base-a), var(--grad-base-b)), 
-    radial-gradient(90% 100% at 50% 0%, var(--grad-1-a), var(--grad-1-b)), 
-    radial-gradient(110% 130% at 84% 10%, var(--grad-3-a), var(--grad-3-b)), 
-    linear-gradient(60deg, var(--grad-accent-a), var(--grad-accent-b));
-  background-blend-mode: soft-light, overlay, overlay, normal;
-  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
-  background-position: 0 0, center center, center center, center center;
-  background-size: auto, cover, cover, cover;
-  background-attachment: scroll;
+  background: var(--color-background);
+  }
+
+  @keyframes section-ambient-float {
+    from {
+      transform: translate3d(calc(var(--ambient-x, 0px) - 10px), calc(var(--ambient-y, 0px) - 6px), 0) scale(0.95);
+      opacity: 0.72;
+    }
+    to {
+      transform: translate3d(calc(var(--ambient-x, 0px) + 14px), calc(var(--ambient-y, 0px) + 10px), 0) scale(1.05);
+      opacity: 0.9;
+    }
   }
 </style>
 
-<script define:vars={{ palette }}>
+<script data-astro-rerun>
   const setSubtitleShrinkFromScroll = () => {
     const maxDistance = 420;
     const progress = Math.min(window.scrollY / maxDistance, 1);
     document.documentElement.style.setProperty("--subtitle-shrink-progress", progress.toFixed(3));
   };
 
-  const applyPalette = () => {
-    const body = document.body;
-    body.style.setProperty("--grad-base-a", palette.baseA);
-    body.style.setProperty("--grad-base-b", palette.baseB);
-    body.style.setProperty("--grad-1-a", palette.g1A);
-    body.style.setProperty("--grad-1-b", palette.g1B);
-    body.style.setProperty("--grad-2-a", palette.g2A);
-    body.style.setProperty("--grad-2-b", palette.g2B);
-    body.style.setProperty("--grad-3-a", palette.g3A);
-    body.style.setProperty("--grad-3-b", palette.g3B);
-    body.style.setProperty("--grad-4-a", palette.g4A);
-    body.style.setProperty("--grad-4-b", palette.g4B);
-    body.style.setProperty("--grad-accent-a", palette.accentA);
-    body.style.setProperty("--grad-accent-b", palette.accentB);
+  const ambientStateKey = "__sectionAmbientState";
+  const supportsAmbientMotion =
+    window.matchMedia("(pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!window[ambientStateKey]) {
+    window[ambientStateKey] = {
+      initialized: false,
+      ambientEl: null,
+      frameId: 0,
+      currentX: 0,
+      currentY: 0,
+      targetX: 0,
+      targetY: 0,
+    };
+  }
+
+  const ambientState = window[ambientStateKey];
+
+  const refreshAmbientEl = () => {
+    const ambientEl = document.querySelector(".section-layout__ambient");
+    if (!(ambientEl instanceof HTMLElement)) return;
+
+    ambientState.ambientEl = ambientEl;
+    ambientEl.style.setProperty("--ambient-x", `${ambientState.currentX}px`);
+    ambientEl.style.setProperty("--ambient-y", `${ambientState.currentY}px`);
   };
 
-  applyPalette();
+  const updateAmbient = () => {
+    ambientState.frameId = 0;
+    ambientState.currentX += (ambientState.targetX - ambientState.currentX) * 0.12;
+    ambientState.currentY += (ambientState.targetY - ambientState.currentY) * 0.12;
+
+    if (ambientState.ambientEl) {
+      ambientState.ambientEl.style.setProperty("--ambient-x", `${ambientState.currentX.toFixed(2)}px`);
+      ambientState.ambientEl.style.setProperty("--ambient-y", `${ambientState.currentY.toFixed(2)}px`);
+    }
+
+    const settled =
+      Math.abs(ambientState.targetX - ambientState.currentX) < 0.15 &&
+      Math.abs(ambientState.targetY - ambientState.currentY) < 0.15;
+
+    if (!settled) {
+      ambientState.frameId = window.requestAnimationFrame(updateAmbient);
+    }
+  };
+
+  const queueAmbientUpdate = () => {
+    if (!supportsAmbientMotion) return;
+    if (!ambientState.frameId) {
+      ambientState.frameId = window.requestAnimationFrame(updateAmbient);
+    }
+  };
+
+  const onPointerMove = (event) => {
+    ambientState.targetX = (event.clientX / window.innerWidth - 0.5) * 24;
+    ambientState.targetY = (event.clientY / window.innerHeight - 0.5) * 16;
+    queueAmbientUpdate();
+  };
+
+  const onPointerLeave = () => {
+    ambientState.targetX = 0;
+    ambientState.targetY = 0;
+    queueAmbientUpdate();
+  };
+
   setSubtitleShrinkFromScroll();
-  document.addEventListener("astro:page-load", applyPalette);
   document.addEventListener("astro:page-load", setSubtitleShrinkFromScroll);
+  document.addEventListener("astro:after-swap", setSubtitleShrinkFromScroll);
   window.addEventListener("scroll", setSubtitleShrinkFromScroll, { passive: true });
+
+  if (!ambientState.initialized) {
+    ambientState.initialized = true;
+
+    if (supportsAmbientMotion) {
+      document.addEventListener("pointermove", onPointerMove, { passive: true });
+      document.addEventListener("pointerleave", onPointerLeave, { passive: true });
+    }
+  }
+
+  refreshAmbientEl();
+  document.addEventListener("astro:page-load", refreshAmbientEl);
+  document.addEventListener("astro:after-swap", refreshAmbientEl);
 </script>

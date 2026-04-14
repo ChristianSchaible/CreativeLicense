@@ -31,6 +31,12 @@
         setWidth: null,
         setHeight: null,
         setRadius: null,
+        setRotate: null,
+        setScaleX: null,
+        setScaleY: null,
+        hoverSetX: null,
+        hoverSetY: null,
+        hoverBounds: null,
         hoverEl: null,
         pos: { x: -100, y: -100, tx: -100, ty: -100, px: -100, py: -100 },
         currentScale: 1,
@@ -66,16 +72,54 @@
       state.setWidth = gsap.quickSetter(cursorEl, "width", "px");
       state.setHeight = gsap.quickSetter(cursorEl, "height", "px");
       state.setRadius = gsap.quickSetter(cursorEl, "borderRadius", "px");
+      state.setRotate = gsap.quickSetter(cursorEl, "rotate", "deg");
+      state.setScaleX = gsap.quickSetter(cursorEl, "scaleX");
+      state.setScaleY = gsap.quickSetter(cursorEl, "scaleY");
       cursorEl.style.display = "block";
       document.body.classList.add("has-magnetic-cursor");
     };
 
-    const setHoverFit = (target) => {
-      const bounds = target.getBoundingClientRect();
+    const setHoverFit = (bounds) => {
       state.targetWidth = Math.max(BASE_SIZE, bounds.width + HOVER_PAD_X);
       state.targetHeight = Math.max(BASE_SIZE, bounds.height + HOVER_PAD_Y);
       state.targetRadius = Math.min(18, state.targetHeight * 0.28);
       state.targetScale = 1;
+    };
+
+    const measureHoverBounds = () => {
+      if (!state.hoverEl) return;
+      state.hoverBounds = state.hoverEl.getBoundingClientRect();
+      setHoverFit(state.hoverBounds);
+    };
+
+    const setHoverTarget = (target) => {
+      state.hoverEl = target;
+      state.hoverSetX = gsap.quickTo(target, "x", {
+        duration: 0.35,
+        ease: "power3.out",
+        overwrite: true,
+      });
+      state.hoverSetY = gsap.quickTo(target, "y", {
+        duration: 0.35,
+        ease: "power3.out",
+        overwrite: true,
+      });
+      measureHoverBounds();
+    };
+
+    const clearHoverTarget = () => {
+      if (state.hoverSetX && state.hoverSetY) {
+        state.hoverSetX(0);
+        state.hoverSetY(0);
+      }
+      state.hoverEl = null;
+      state.hoverBounds = null;
+      state.hoverSetX = null;
+      state.hoverSetY = null;
+      state.targetScale = 1;
+      state.targetWidth = BASE_SIZE;
+      state.targetHeight = BASE_SIZE;
+      state.targetRadius = 999;
     };
 
     if (!state.initialized) {
@@ -112,17 +156,13 @@
           state.setRadius(state.radius);
 
           if (state.hoverEl) {
-            gsap.set(state.cursorEl, {
-              rotate: 0,
-              scaleX: state.currentScale,
-              scaleY: state.currentScale,
-            });
+            state.setRotate(0);
+            state.setScaleX(state.currentScale);
+            state.setScaleY(state.currentScale);
           } else {
-            gsap.set(state.cursorEl, {
-              rotate: angle,
-              scaleX: state.currentScale + speed,
-              scaleY: state.currentScale - Math.min(speed, 0.3),
-            });
+            state.setRotate(angle);
+            state.setScaleX(state.currentScale + speed);
+            state.setScaleY(state.currentScale - Math.min(speed, 0.3));
           }
         }
 
@@ -134,8 +174,9 @@
         (event) => {
           const target = getTarget(event.target);
           if (!target) return;
-          state.hoverEl = target;
-          setHoverFit(target);
+          if (state.hoverEl !== target) {
+            setHoverTarget(target);
+          }
         },
         true
       );
@@ -150,23 +191,14 @@
           if (related instanceof Node && target.contains(related)) return;
 
           if (state.hoverEl === target) {
-            state.hoverEl = null;
-            state.targetScale = 1;
-            state.targetWidth = BASE_SIZE;
-            state.targetHeight = BASE_SIZE;
-            state.targetRadius = 999;
+            clearHoverTarget();
           }
-
-          gsap.to(target, {
-            x: 0,
-            y: 0,
-            duration: 0.8,
-            ease: "elastic.out(1, 0.35)",
-            overwrite: true,
-          });
         },
         true
       );
+
+      window.addEventListener("resize", measureHoverBounds, { passive: true });
+      window.addEventListener("scroll", measureHoverBounds, { passive: true });
 
       window.addEventListener("pointermove", (event) => {
         if (!state.hoverEl) {
@@ -175,24 +207,26 @@
           return;
         }
 
-        const bounds = state.hoverEl.getBoundingClientRect();
+        const bounds = state.hoverBounds;
+        if (!bounds) {
+          measureHoverBounds();
+          state.pos.tx = event.clientX;
+          state.pos.ty = event.clientY;
+          return;
+        }
+
         const cx = bounds.left + bounds.width / 2;
         const cy = bounds.top + bounds.height / 2;
         const dx = event.clientX - cx;
         const dy = event.clientY - cy;
 
-        setHoverFit(state.hoverEl);
-
         state.pos.tx = cx + dx * 0.12;
         state.pos.ty = cy + dy * 0.12;
 
-        gsap.to(state.hoverEl, {
-          x: dx * 0.2,
-          y: dy * 0.2,
-          duration: 0.8,
-          ease: "elastic.out(1, 0.35)",
-          overwrite: true,
-        });
+        if (state.hoverSetX && state.hoverSetY) {
+          state.hoverSetX(dx * 0.2);
+          state.hoverSetY(dy * 0.2);
+        }
       });
 
       requestAnimationFrame(update);

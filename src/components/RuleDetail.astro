@@ -30,6 +30,9 @@ const {
 } = Astro.props;
 
 const outputImages = finalOutputImages?.length ? finalOutputImages : finalOutputImage ? [finalOutputImage] : [];
+
+const outputImageLabels = outputImages.map((_, index) => `Final output ${index + 1} for ${rule}`);
+const processImageLabels = images.map((_, index) => `Process image ${index + 1} for ${rule}`);
 ---
 
 <article class="rule-detail">
@@ -43,15 +46,21 @@ const outputImages = finalOutputImages?.length ? finalOutputImages : finalOutput
     <div class="rule-detail__content">
       {outputImages.length > 0 && (
         <div class="rule-detail__final-output">
-          <h2 class="rule-detail__subtitle">Final Output</h2>
           <div class="rule-detail__gallery">
             {outputImages.map((image, index) => (
               <figure class="rule-detail__figure">
-                <img
-                  src={withBase(image)}
-                  alt={outputImages.length > 1 ? `Final output ${index + 1} for ${rule}` : `Final output for ${rule}`}
-                  class="rule-detail__img"
-                />
+                <button
+                  type="button"
+                  class="rule-detail__lightbox-trigger"
+                  data-lightbox-trigger
+                  data-lightbox-src={withBase(image)}
+                  data-lightbox-alt={outputImageLabels[index]}
+                  data-lightbox-caption={outputImageLabels[index]}
+                  data-lightbox-index={index}
+                  aria-label={`Open ${outputImageLabels[index]}`}
+                >
+                  <img src={withBase(image)} alt="" aria-hidden="true" class="rule-detail__img" />
+                </button>
               </figure>
             ))}
           </div>
@@ -87,9 +96,20 @@ const outputImages = finalOutputImages?.length ? finalOutputImages : finalOutput
       {images.length > 0 && (
         <section class="rule-detail__section rule-detail__images">
           <div class="rule-detail__gallery">
-            {images.map((image) => (
+            {images.map((image, index) => (
               <figure class="rule-detail__figure">
-                <img src={withBase(image)} alt={rule} class="rule-detail__img" />
+                <button
+                  type="button"
+                  class="rule-detail__lightbox-trigger"
+                  data-lightbox-trigger
+                  data-lightbox-src={withBase(image)}
+                  data-lightbox-alt={processImageLabels[index]}
+                  data-lightbox-caption={processImageLabels[index]}
+                  data-lightbox-index={outputImages.length + index}
+                  aria-label={`Open ${processImageLabels[index]}`}
+                >
+                  <img src={withBase(image)} alt="" aria-hidden="true" class="rule-detail__img" />
+                </button>
               </figure>
             ))}
           </div>
@@ -98,10 +118,114 @@ const outputImages = finalOutputImages?.length ? finalOutputImages : finalOutput
     </div>
   </div>
 
+  <div class="rule-detail__lightbox" data-lightbox hidden aria-hidden="true">
+    <div class="rule-detail__lightbox-backdrop" data-lightbox-close></div>
+
+    <div class="rule-detail__lightbox-panel" role="dialog" aria-modal="true" aria-label="Image lightbox">
+      <button type="button" class="rule-detail__lightbox-close" data-lightbox-close aria-label="Close image viewer">×</button>
+      <button type="button" class="rule-detail__lightbox-nav rule-detail__lightbox-nav--prev" data-lightbox-prev aria-label="Previous image">←</button>
+
+      <figure class="rule-detail__lightbox-stage">
+        <img class="rule-detail__lightbox-image" data-lightbox-image alt="" />
+        <figcaption class="rule-detail__lightbox-caption" data-lightbox-caption></figcaption>
+      </figure>
+
+      <button type="button" class="rule-detail__lightbox-nav rule-detail__lightbox-nav--next" data-lightbox-next aria-label="Next image">→</button>
+    </div>
+  </div>
+
   <footer class="rule-detail__footer">
     <a href={backHref} class="rule-detail__back-link">{backLabel}</a>
   </footer>
 </article>
+
+  <script>
+    const lightbox = document.querySelector("[data-lightbox]");
+    const triggers = Array.from(document.querySelectorAll("[data-lightbox-trigger]"));
+
+    if (lightbox && triggers.length > 0) {
+      const image = lightbox.querySelector("[data-lightbox-image]");
+      const caption = lightbox.querySelector("[data-lightbox-caption]");
+      const prevButton = lightbox.querySelector("[data-lightbox-prev]");
+      const nextButton = lightbox.querySelector("[data-lightbox-next]");
+      const closeButtons = Array.from(lightbox.querySelectorAll("[data-lightbox-close]"));
+
+      const items = triggers
+        .map((trigger) => ({
+          src: trigger.dataset.lightboxSrc || "",
+          alt: trigger.dataset.lightboxAlt || "",
+          caption: trigger.dataset.lightboxCaption || "",
+        }))
+        .filter((item) => item.src);
+
+      if (items.length > 0 && image && caption && prevButton && nextButton) {
+        let currentIndex = 0;
+        let lastTrigger = null;
+
+        const update = () => {
+          const item = items[currentIndex];
+          image.src = item.src;
+          image.alt = item.alt;
+          caption.textContent = item.caption;
+        };
+
+        const open = (index, trigger) => {
+          currentIndex = (index + items.length) % items.length;
+          lastTrigger = trigger || null;
+          update();
+          lightbox.hidden = false;
+          lightbox.classList.add("is-open");
+          document.body.style.overflow = "hidden";
+          closeButtons[0]?.focus();
+        };
+
+        const close = () => {
+          lightbox.hidden = true;
+          lightbox.classList.remove("is-open");
+          document.body.style.overflow = "";
+          lastTrigger?.focus?.();
+        };
+
+        const go = (step) => {
+          currentIndex = (currentIndex + step + items.length) % items.length;
+          update();
+        };
+
+        triggers.forEach((trigger, index) => {
+          trigger.addEventListener("click", () => open(index, trigger));
+        });
+
+        prevButton.addEventListener("click", () => go(-1));
+        nextButton.addEventListener("click", () => go(1));
+        closeButtons.forEach((button) => button.addEventListener("click", close));
+
+        lightbox.addEventListener("click", (event) => {
+          const target = event.target;
+          if (target === lightbox || (target instanceof Element && target.hasAttribute("data-lightbox-close"))) {
+            close();
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (lightbox.hidden) return;
+
+          if (event.key === "Escape") {
+            close();
+          }
+
+          if (event.key === "ArrowLeft") {
+            go(-1);
+          }
+
+          if (event.key === "ArrowRight") {
+            go(1);
+          }
+        });
+      } else {
+        lightbox.remove();
+      }
+    }
+  </script>
 
 <style>
   .rule-detail {
@@ -121,7 +245,7 @@ const outputImages = finalOutputImages?.length ? finalOutputImages : finalOutput
   }
 
   .rule-detail__content {
-    max-width: 65ch;
+    max-width: min(100%, 1100px);
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -208,6 +332,7 @@ const outputImages = finalOutputImages?.length ? finalOutputImages : finalOutput
   }
 
   .rule-detail__final-output {
+    width: 100%;
     opacity: 0;
     transform: translateY(18px);
     animation: detail-fade-up 560ms ease-out 80ms forwards;
@@ -243,6 +368,42 @@ const outputImages = finalOutputImages?.length ? finalOutputImages : finalOutput
     flex: 0 0 auto;
   }
 
+  .rule-detail__lightbox-trigger {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: zoom-in;
+    border-radius: calc(var(--radius-inner) - 2px);
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.14);
+    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+  }
+
+  .rule-detail__lightbox-trigger::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(0 0 0 / 0));
+    opacity: 0;
+    transition: opacity 180ms ease;
+    pointer-events: none;
+  }
+
+  .rule-detail__lightbox-trigger:hover,
+  .rule-detail__lightbox-trigger:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgb(0 0 0 / 0.34), 0 0 0 1px rgb(255 255 255 / 0.28);
+  }
+
+  .rule-detail__lightbox-trigger:hover::after,
+  .rule-detail__lightbox-trigger:focus-visible::after {
+    opacity: 1;
+  }
+
   .rule-detail__img {
     width: 100%;
     height: auto;
@@ -254,6 +415,153 @@ const outputImages = finalOutputImages?.length ? finalOutputImages : finalOutput
     height: clamp(260px, 38vw, 420px);
     max-width: none;
     object-fit: cover;
+  }
+
+  .rule-detail__lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: grid;
+    place-items: center;
+  }
+
+  .rule-detail__lightbox[hidden] {
+    display: none;
+  }
+
+  .rule-detail__lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 0.9);
+    backdrop-filter: blur(12px);
+  }
+
+  .rule-detail__lightbox-panel {
+    position: relative;
+    z-index: 1;
+    width: min(94vw, 1500px);
+    max-height: 90vh;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-inner);
+    background: rgb(10 10 10 / 0.95);
+  }
+
+  .rule-detail__lightbox-stage {
+    margin: 0;
+    min-width: 0;
+    display: grid;
+    gap: 0.75rem;
+    justify-items: center;
+  }
+
+  .rule-detail__lightbox-image {
+    display: block;
+    max-width: 100%;
+    max-height: 76vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .rule-detail__lightbox-caption {
+    font-family: var(--font-headings);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: var(--color-text);
+  }
+
+  .rule-detail__lightbox-close,
+  .rule-detail__lightbox-nav {
+    appearance: none;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    background: rgb(255 255 255 / 0.08);
+    backdrop-filter: blur(14px);
+    color: var(--color-accent);
+    font-family: var(--font-headings);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    min-width: 4rem;
+    min-height: 4rem;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 12px 30px rgb(0 0 0 / 0.35);
+    transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+  }
+
+  .rule-detail__lightbox-close:hover,
+  .rule-detail__lightbox-nav:hover,
+  .rule-detail__lightbox-close:focus-visible,
+  .rule-detail__lightbox-nav:focus-visible {
+    background: rgb(255 255 255 / 0.16);
+    border-color: rgb(255 255 255 / 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 16px 34px rgb(0 0 0 / 0.42);
+  }
+
+  .rule-detail__lightbox-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 2;
+    font-size: 1.9rem;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .rule-detail__lightbox-nav {
+    align-self: center;
+    justify-self: center;
+    padding: 0;
+    font-size: 1.6rem;
+    line-height: 1;
+    min-inline-size: 4.5rem;
+  }
+
+  .rule-detail__lightbox-nav:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .rule-detail__lightbox-trigger:focus-visible,
+  .rule-detail__lightbox-close:focus-visible,
+  .rule-detail__lightbox-nav:focus-visible {
+    outline: 3px solid var(--color-focus-ring);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 900px) {
+    .rule-detail__lightbox-panel {
+      width: min(96vw, 1500px);
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      padding-top: 3.25rem;
+    }
+
+    .rule-detail__lightbox-nav {
+      width: 100%;
+    }
+
+    .rule-detail__lightbox-nav--prev {
+      order: 2;
+    }
+
+    .rule-detail__lightbox-stage {
+      order: 1;
+    }
+
+    .rule-detail__lightbox-nav--next {
+      order: 3;
+    }
   }
 
   .rule-detail__footer {

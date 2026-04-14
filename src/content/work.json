@@ -18,7 +18,10 @@
       "rule": "Design on a 10x10 pixel grid",
       "author": "Kiaran Lynch",
       "visualizedBy": "Bryce Walsh and Amanda Barros-Ayala",
-      "finalOutputImages": ["/WEBREADY RULES OF WORK/Bryce.webp"],
+      "finalOutputImages": [
+        "/WEBREADY RULES OF WORK/Bryce.webp",
+        "/WEBREADY RULES OF WORK/Amanda-ezgif.com-resize.webp"
+      ],
       "description": "Use a tight pixel grid to force every decision into a controlled structure.",
       "process": "I built the layout on a strict 10x10 grid so the structure itself could determine the final alignment."
     },

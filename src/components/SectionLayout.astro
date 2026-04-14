@@ -294,8 +294,6 @@ const descriptionColumns = (() => {
   :global(body) {
   min-height: 100vh;
   margin: 0;
-  --x: calc(var(--posX, 0) * 1px);
-  --y: calc(var(--posY, 0) * 1px);
   --grad-base-a: rgb(231 227 246);
   --grad-base-b: rgb(0 3 45);
   --grad-1-a: rgb(231 227 246);
@@ -316,8 +314,8 @@ const descriptionColumns = (() => {
   background-image: 
     var(--noise-texture),
     linear-gradient(115deg, var(--grad-base-a), var(--grad-base-b)), 
-    radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), var(--grad-1-a), var(--grad-1-b)), 
-    radial-gradient(110% 130% at calc(84% - var(--x)) calc(10% - var(--y)), var(--grad-3-a), var(--grad-3-b)), 
+    radial-gradient(90% 100% at 50% 0%, var(--grad-1-a), var(--grad-1-b)), 
+    radial-gradient(110% 130% at 84% 10%, var(--grad-3-a), var(--grad-3-b)), 
     linear-gradient(60deg, var(--grad-accent-a), var(--grad-accent-b));
   background-blend-mode: soft-light, overlay, overlay, normal;
   background-repeat: repeat, no-repeat, no-repeat, no-repeat;
@@ -355,27 +353,4 @@ const descriptionColumns = (() => {
   document.addEventListener("astro:page-load", applyPalette);
   document.addEventListener("astro:page-load", setSubtitleShrinkFromScroll);
   window.addEventListener("scroll", setSubtitleShrinkFromScroll, { passive: true });
-
-  let pointerFrame = 0;
-  let latestPointerX = 0;
-  let latestPointerY = 0;
-
-  const updatePointerBackground = () => {
-    pointerFrame = 0;
-    document.body.style.setProperty("--posX", String(latestPointerX - window.innerWidth / 2));
-    document.body.style.setProperty("--posY", String(latestPointerY - window.innerHeight / 2));
-  };
-
-  document.body.addEventListener(
-    "pointermove",
-    (e) => {
-      latestPointerX = e.clientX;
-      latestPointerY = e.clientY;
-
-      if (!pointerFrame) {
-        pointerFrame = window.requestAnimationFrame(updatePointerBackground);
-      }
-    },
-    { passive: true }
-  );
 </script>

@@ -17,10 +17,16 @@ const links = [
 </nav>
 <style>
 .side-nav {
-  height: 50vh;
+  --nav-radius: var(--radius-inner);
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   flex-direction: row;
+  align-items: stretch;
+  gap: 0.35rem;
   mix-blend-mode: difference;
+  width: 100%;
+  min-width: 0;
 
 
 }
@@ -31,9 +37,9 @@ const links = [
   text-orientation: mixed;
   mix-blend-mode: hard-light;
 
-  padding: 16px 8px;
+  padding: 16px 12px;
   border: 1px solid #fff;
-    border-radius: 5px;
+    border-radius: var(--nav-radius);
 
   font-weight: bold;
   letter-spacing: 0.05em;
@@ -49,19 +55,28 @@ const links = [
   align-items: center;
   justify-content: flex-end;
 
-  width: fit-content; /* controls sidebar width */
-  height: calc(fit-content+16px); /* adds padding to height */
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
   font-variation-settings: "wdth" 100, "wght" 100, "slnt" 0;
-  transition: all .5s ease-in-out;
+  transition: flex-grow 0.35s ease, background 0.35s ease, color 0.35s ease, font-variation-settings 0.35s ease;
 
+}
+
+.side-nav:hover .nav-item {
+  flex-grow: 0.8;
+}
+
+.side-nav .nav-item:hover {
+  flex-grow: 1.4;
 }
 
 .nav-item:hover {
   background: rgb(13, 0, 255);
   color: rgb(255, 255, 255);
   font-variation-settings: "wdth" 900, "wght" 700, "slnt" 0;
-  padding: 16px 24px;
-  transition: all .5s ease-in-out;
+  padding: 16px 12px;
 }
 
 </style>

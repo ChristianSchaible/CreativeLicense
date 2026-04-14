@@ -1,69 +1,301 @@
 ---
 import Layout from "@layouts/Layoutsidenav.astro";
-import Container from "@components/Container.astro";
 import SideNav from "@components/sidenav.astro";
 ---
 
 <Layout title="Astro Starter">
+  <div class="ambient-video" aria-hidden="true">
+    <iframe
+      id="ambient-vimeo"
+      src="https://player.vimeo.com/video/1183104067?background=1&autopause=0&loop=1&muted=1"
+      frameborder="0"
+      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      tabindex="-1"
+      title="Creative License ambient background"
+    ></iframe>
+  </div>
   <div class="home">
-    <div class="video-container">
-      <video muted autoplay loop="myVideo">
-        <source src="creative-license.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-
-      </video>
-    </div>
-    <SideNav />
-    <div class="hero">
-      <h1 class="hero-text">Creative License</h1>
-      <div class="herodescription">
-        <p>
-          <strong>Creative License</strong> is an exploration of how rules shape the creative
-          process. This site functions as both an archive and an active
-          system—documenting outcomes while also allowing rules to operate in
-          real time. Across the work, the craft, and the self, rules act as
-          constraints, prompts, and interruptions. They guide decisions, limit
-          control, and generate unexpected results. Nothing here is neutral.
-          Every outcome is influenced by the conditions it was made under.
-        </p>
+    <div class="stage">
+      <div class="left-panel">
+        <SideNav />
+        <div class="hero">
+          <div class="herodescription">
+            <p>
+              <strong>Creative License</strong> is an exploration of how rules shape the creative
+              process. This site functions as both an archive and an active
+              system-documenting outcomes while also allowing rules to operate in
+              real time. Across the work, the craft, and the self, rules act as
+              constraints, prompts, and interruptions. They guide decisions, limit
+              control, and generate unexpected results. Nothing here is neutral.
+              Every outcome is influenced by the conditions it was made under.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="video-container">
+        <div class="video-frame">
+          <iframe
+            id="main-vimeo"
+            src="https://player.vimeo.com/video/1183104067?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&controls=0&title=0&byline=0&portrait=0"
+            frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            title="This is CREATIVE LICENSE"
+          ></iframe>
+          <div class="video-controls">
+            <button type="button" id="play-pause-btn" class="video-control-btn">Pause</button>
+            <button type="button" id="mute-btn" class="video-control-btn">Mute</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  <script>
+    const mainIframe = document.getElementById("main-vimeo");
+    const ambientIframe = document.getElementById("ambient-vimeo");
+    const playPauseBtn = document.getElementById("play-pause-btn");
+    const muteBtn = document.getElementById("mute-btn");
+    let mainPlayer = null;
+
+    if (mainIframe && ambientIframe && window.Vimeo?.Player) {
+      mainPlayer = new window.Vimeo.Player(mainIframe);
+      const ambientPlayer = new window.Vimeo.Player(ambientIframe);
+      let lastSyncMs = 0;
+
+      const refreshControlState = async () => {
+        try {
+          const paused = await mainPlayer.getPaused();
+          const volume = await mainPlayer.getVolume();
+          if (playPauseBtn) {
+            playPauseBtn.textContent = paused ? "Play" : "Pause";
+          }
+          if (muteBtn) {
+            muteBtn.textContent = volume === 0 ? "Unmute" : "Mute";
+          }
+        } catch {
+          // Ignore state reads during startup transitions.
+        }
+      };
+
+      const syncTime = async (seconds) => {
+        try {
+          const ambientTime = await ambientPlayer.getCurrentTime();
+          if (Math.abs(ambientTime - seconds) > 0.4) {
+            await ambientPlayer.setCurrentTime(seconds);
+          }
+        } catch {
+          // Ignore sync race conditions during startup and seek operations.
+        }
+      };
+
+      ambientPlayer.setVolume(0).catch(() => {});
+
+      mainPlayer.on("play", async () => {
+        try {
+          const rate = await mainPlayer.getPlaybackRate();
+          await ambientPlayer.setPlaybackRate(rate);
+          await ambientPlayer.play();
+          await refreshControlState();
+        } catch {
+          // Ignore autoplay restrictions on some browsers.
+        }
+      });
+
+      mainPlayer.on("pause", async () => {
+        try {
+          await ambientPlayer.pause();
+          await refreshControlState();
+        } catch {
+          // Ignore pause races when player state changes quickly.
+        }
+      });
+
+      mainPlayer.on("seeked", ({ seconds }) => {
+        void syncTime(seconds);
+      });
+
+      mainPlayer.on("ratechange", ({ playbackRate }) => {
+        ambientPlayer.setPlaybackRate(playbackRate).catch(() => {});
+      });
+
+      mainPlayer.on("timeupdate", ({ seconds }) => {
+        const now = performance.now();
+        if (now - lastSyncMs < 1500) return;
+        lastSyncMs = now;
+        void syncTime(seconds);
+      });
+
+      mainPlayer.ready().then(() => {
+        void refreshControlState();
+      });
+
+      if (playPauseBtn) {
+        playPauseBtn.addEventListener("click", async () => {
+          try {
+            const paused = await mainPlayer.getPaused();
+            if (paused) {
+              await mainPlayer.play();
+            } else {
+              await mainPlayer.pause();
+            }
+            await refreshControlState();
+          } catch {
+            // Ignore controls race conditions.
+          }
+        });
+      }
+
+      if (muteBtn) {
+        muteBtn.addEventListener("click", async () => {
+          try {
+            const volume = await mainPlayer.getVolume();
+            if (volume === 0) {
+              await mainPlayer.setVolume(1);
+            } else {
+              await mainPlayer.setVolume(0);
+            }
+            await refreshControlState();
+          } catch {
+            // Ignore controls race conditions.
+          }
+        });
+      }
+    }
+  </script>
 </Layout>
 
 <style>
+  :global(html),
+  :global(body) {
+    overflow: hidden;
+  }
 
-.video-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  z-index: -1;
-}
+  :global(.site-scrollbar),
+  :global(.site-scrollbar__thumb) {
+    display: none !important;
+  }
 
-.video-container video {
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-}
+  .ambient-video {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .ambient-video iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120vw;
+    height: 67.5vw;
+    min-width: 177.78vh;
+    min-height: 100vh;
+    transform: translate(-50%, -50%) scale(1.18);
+    filter: blur(32px) saturate(2.8) brightness(0.45);
+    opacity: 0.9;
+    border: 0;
+  }
+
   .home {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: baseline;
-    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100dvh;
+    min-height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
   }
+
+  .stage {
+    --video-h: min(82dvh, calc(100dvh - 2rem));
+    --video-w: calc(var(--video-h) * 16 / 9);
+    display: grid;
+    grid-template-columns: minmax(210px, 280px) var(--video-w);
+    gap: 1rem;
+    height: var(--video-h);
+    align-items: stretch;
+  }
+
+  .left-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+    height: 100%;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .video-container {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .video-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-outer);
+    overflow: hidden;
+    background: #202020;
+  }
+
+  .video-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    pointer-events: none;
+  }
+
+  .video-controls {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 2;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .video-control-btn {
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 0.45rem 0.8rem;
+    border-radius: var(--radius-chip);
+    font-size: 0.8rem;
+    line-height: 1;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .video-control-btn:hover {
+    background: rgba(34, 0, 255, 0.85);
+    border-color: rgba(255, 255, 255, 0.85);
+  }
+
     .hero {
         display: flex;
         flex-direction: column;
         border: 1px solid var(--color-accent);
-        width: 33vw;
+        width: 100%;
         text-align: justify;
         padding: var(--padding);
-        margin: var(--margin);
-        border-radius: 5px;
+      margin: 0;
+        border-radius: var(--radius-inner);
         mix-blend-mode: exclusion;
         transition: all 0.5s ease;
         background: rgb(34, 0, 255);
@@ -83,7 +315,37 @@ import SideNav from "@components/sidenav.astro";
     .herodescription {
         font-size: 1rem;
         max-width: 800px;
-
     }
+
+  @media (max-width: 980px) {
+    .home {
+      height: 100dvh;
+      overflow: hidden;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+
+    .stage {
+      --video-h: auto;
+      --video-w: 100%;
+      grid-template-columns: 1fr;
+      height: auto;
+      width: 100%;
+    }
+
+    .left-panel {
+      height: auto;
+      gap: 1rem;
+    }
+
+    .video-container {
+      height: auto;
+    }
+
+    .video-frame {
+      height: auto;
+      aspect-ratio: 16 / 9;
+    }
+  }
 
 </style>    

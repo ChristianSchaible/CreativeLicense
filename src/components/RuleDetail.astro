@@ -245,7 +245,8 @@ const processImageLabels = images.map((_, index) => `Process image ${index + 1} 
   }
 
   .rule-detail__content {
-    max-width: min(100%, 1100px);
+    width: fit-content;
+    max-width: none;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -346,18 +347,15 @@ const processImageLabels = images.map((_, index) => `Process image ${index + 1} 
 
   .rule-detail__gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 2rem;
   }
 
   .rule-detail__final-output .rule-detail__gallery {
-    display: flex;
-    flex-wrap: nowrap;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 0.25rem;
-    scrollbar-width: thin;
+    align-items: start;
   }
 
   .rule-detail__figure {
@@ -365,7 +363,8 @@ const processImageLabels = images.map((_, index) => `Process image ${index + 1} 
   }
 
   .rule-detail__final-output .rule-detail__figure {
-    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
   }
 
   .rule-detail__lightbox-trigger {
@@ -411,10 +410,10 @@ const processImageLabels = images.map((_, index) => `Process image ${index + 1} 
   }
 
   .rule-detail__final-output .rule-detail__img {
-    width: auto;
-    height: clamp(260px, 38vw, 420px);
-    max-width: none;
-    object-fit: cover;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
   }
 
   .rule-detail__lightbox {

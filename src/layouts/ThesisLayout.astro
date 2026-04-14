@@ -1,0 +1,180 @@
+---
+// Thesis Layout with sticky side navigation
+const { title } = Astro.props;
+import SkipLink from "@components/SkipLink.astro";
+import CSSReset from "../global/CSSReset.astro";
+import Theme from "../global/Theme.astro";
+import ThesisStyles from "../global/ThesisStyles.astro";
+---
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{title}</title>
+  <link rel="stylesheet" href="https://use.typekit.net/sva7bmh.css">
+  <CSSReset />
+  <Theme />
+  <ThesisStyles />
+</head>
+
+<body>
+  <SkipLink />
+
+  <div class="thesis-layout">
+    <!-- Sticky Side Navigation -->
+    <aside class="side-nav">
+      <div class="nav-brand">
+        <a href="/">Creative License</a>
+      </div>
+      <nav class="nav-menu">
+        <a href="#intro" class="nav-link active" data-section="intro">Intro</a>
+        <a href="#work" class="nav-link" data-section="work">Rules of Work</a>
+        <a href="#self" class="nav-link" data-section="self">Rules of Self</a>
+        <a href="#craft" class="nav-link" data-section="craft">Rules of Craft</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+      <slot />
+    </main>
+  </div>
+
+  <script>
+    // Intersection Observer for highlighting active section
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('[data-section]');
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-50% 0px -50% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.getAttribute('data-section');
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('data-section') === sectionId) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    });
+  </script>
+</body>
+
+<style>
+  .thesis-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    min-height: 100vh;
+  }
+
+  .side-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: var(--color-background);
+    border-right: 1px solid var(--color-accent);
+    padding: 2rem 1.5rem;
+    overflow-y: auto;
+  }
+
+  .nav-brand {
+    margin-bottom: 3rem;
+  }
+
+  .nav-brand a {
+    font-family: var(--font-headings);
+    font-size: 1.25rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-variation-settings: "wdth" 200, "wght" 600, "slnt" 0;
+  }
+
+  .nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-link {
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    padding: 0.5rem 0;
+    border-left: 2px solid transparent;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+  }
+
+  .nav-link:hover {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+
+  .nav-link.active {
+    opacity: 1;
+    color: var(--color-accent);
+    border-left-color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  .main-content {
+    margin-left: 300px;
+    padding: 0;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .thesis-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .side-nav {
+      position: relative;
+      width: 100%;
+      height: auto;
+      padding: 1rem;
+      border-right: none;
+      border-bottom: 1px solid var(--color-accent);
+    }
+
+    .nav-menu {
+      flex-direction: row;
+      gap: 2rem;
+      overflow-x: auto;
+    }
+
+    .nav-link {
+      white-space: nowrap;
+      padding: 0.5rem 0;
+      border-left: none;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav-link.active {
+      border-left: none;
+      border-bottom-color: var(--color-accent);
+    }
+
+    .main-content {
+      margin-left: 0;
+    }
+  }
+</style>

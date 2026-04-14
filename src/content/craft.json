@@ -1,0 +1,69 @@
+{
+  "title": "Rules of Craft",
+  "description": "Rules of the Craft examines the conditions that shape the act of making. Rather than focusing on final outcomes, this section looks at process—how decisions are formed, interrupted, and redirected over time. Each rule operates within the moment of creation, influencing how tools are used, how compositions develop, and how ideas are carried forward or abandoned. Some rules impose clear limitations: restricting materials, removing the ability to edit, or forcing continuous progression without revision. Others are more subtle, introducing hesitation, repetition, or shifts in attention. Together, they create a framework where control is never absolute and where the process itself becomes unstable, responsive, and open to change. These constraints do not produce a single method or aesthetic. Instead, they generate variation. The same rule can lead to entirely different approaches depending on how it is interpreted, resisted, or misunderstood in practice. Process becomes less about efficiency or refinement, and more about navigation—working within, against, and around the conditions in place. What emerges is a record of making that is layered, inconsistent, and often unresolved. Iterations build on top of one another, decisions accumulate, and traces of earlier stages remain visible. The work carries evidence of its own construction, revealing not just what was made, but how it came into being. In this way, craft is not treated as a neutral skillset or a linear progression toward a finished piece. It is an active site of negotiation, where rules shape behavior, disrupt habits, and redefine what it means to complete something.",
+  "rules": [
+    {
+      "rule": "Have a plan!",
+      "author": "Molly Vanderbogart",
+      "visualizedBy": "Christian Schaible",
+      "finalOutputImage": "/images/craft-04a.jpg",
+      "description": "Work from a plan so the direction of the piece is defined before the making begins.",
+      "process": "I mapped the structure before building it and used that plan to keep each decision aligned with the whole.",
+      "images": ["/images/craft-04a.jpg"]
+    },
+    {
+      "rule": "Try to recreate your creative vision as best as you can.",
+      "author": "Hayley Rocker",
+      "visualizedBy": "Christian Schaible",
+      "finalOutputImage": "/images/craft-05a.jpg",
+      "description": "Translate the imagined outcome into the work as faithfully as possible, whether that starts with a sketch or direct action.",
+      "process": "I moved between sketching and immediate making to see how closely the final form could hold the original intent.",
+      "images": ["/images/craft-05a.jpg"]
+    },
+    {
+      "rule": "Look for inspiration before you start a project",
+      "author": "Elysia Shannon",
+      "visualizedBy": "Christian Schaible",
+      "finalOutputImage": "/images/craft-06a.jpg",
+      "description": "",
+      "process": "",
+      "images": ["/images/craft-06a.jpg"]
+    },
+    {
+      "rule": "Design one step at a time, don't mix tasks.",
+      "author": "Kristen Sauer",
+      "visualizedBy": "Christian Schaible",
+      "finalOutputImage": "/images/craft-07a.jpg",
+      "description": "Separate the work into clear stages and keep each task distinct while you make the piece.",
+      "process": "I completed one layer before moving to the next, letting the sequence of tasks shape the final composition.",
+      "images": ["/images/craft-07a.jpg"]
+    },
+    {
+      "rule": "Don't play it safe and experiment with new techniques",
+      "author": "Jubilee Harman",
+      "visualizedBy": "Christian Schaible",
+      "finalOutputImage": "/images/craft-08a.jpg",
+      "description": "Use the rule as permission to try unfamiliar methods and push past the comfortable solution.",
+      "process": "I deliberately introduced a new technique that risked failure so the result could move beyond familiar habits.",
+      "images": ["/images/craft-08a.jpg"]
+    },
+    {
+      "rule": "Map everything out first. Only focus on the fine-tuned layout last.",
+      "author": "Kiaran Lynch",
+      "visualizedBy": "Christian Schaible",
+      "finalOutputImage": "/images/craft-09a.jpg",
+      "description": "Build the structure first and leave refinement for the final stage.",
+      "process": "I blocked out the full arrangement before adjusting the details, which kept the layout clear while the piece evolved.",
+      "images": ["/images/craft-09a.jpg"]
+    },
+    {
+      "rule": "Make small things, smaller pieces and projects can inspire and change bigger ones without all the pressure.",
+      "author": "Bryce Walsh",
+      "visualizedBy": "Christian Schaible",
+      "finalOutputImage": "/images/craft-10a.jpg",
+      "description": "Start with small pieces so the pressure stays low and the work can still influence larger outcomes.",
+      "process": "I reduced the scale of the work and let the smaller pieces inform the direction of a larger composition.",
+      "images": ["/images/craft-10a.jpg"]
+    }
+  ]
+}

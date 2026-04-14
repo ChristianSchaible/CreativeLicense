@@ -1,0 +1,115 @@
+---
+interface Props {
+  rule: string;
+  description: string;
+  process: string;
+  author?: string;
+  visualizedBy?: string;
+  images?: string[];
+  href?: string;
+  transitionName?: string;
+}
+
+const {
+  rule,
+  description,
+  process,
+  author = "Unknown",
+  visualizedBy = "Unknown",
+  images = [],
+  href,
+  transitionName,
+} = Astro.props;
+
+const ruleUrl = href || '#';
+---
+
+<a href={ruleUrl} class="rule-card-link">
+  <article class="rule-card" transition:name={transitionName}>
+    <header class="rule-card__header">
+      <h2 class="rule-card__title">"{rule}"</h2>
+    </header>
+    <section class="rule-card__meta" aria-label="Rule credits">
+      <div class="rule-card__meta-row">
+        <p class="rule-card__meta-label">Author of rule</p>
+        <p class="rule-card__meta-value">{author}</p>
+      </div>
+      <div class="rule-card__meta-row">
+        <p class="rule-card__meta-label">Visualized by</p>
+        <p class="rule-card__meta-value">{visualizedBy}</p>
+      </div>
+    </section>
+  </article>
+</a>
+
+<style>
+  .rule-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: opacity 0.3s ease;
+  }
+
+  .rule-card {
+    padding-block: 1rem;
+    border: 1px solid var(--color-accent);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: var(--margin);
+    margin-left: var(--margin);
+    font-variation-settings: "wght" 200, "wdth" 110, "slnt" 0;
+
+  }
+  .rule-card:hover {
+    transition: all 0.3s ease-in-out;
+    scale: 1.01;
+    background: none;
+    box-shadow:  0px 14px 84px 0px rgb(255, 255, 255);
+    font-variation-settings: "wght" 700, "wdth" 110, "slnt" 0;
+
+
+  }
+
+  .rule-card__header {
+    margin: var(--margin)
+    }
+
+  .rule-card__title {
+    font-family: var(--font-headings);
+    font-size: clamp(2rem, 6vw, 5rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+
+  .rule-card__meta {
+    border-top: 1px solid var(--color-accent);
+    margin: 0 var(--margin);
+    padding-top: 0.85rem;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+  }
+
+  .rule-card__meta-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  .rule-card__meta-label {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    opacity: 0.75;
+  }
+
+  .rule-card__meta-value {
+    margin: 0;
+    font-family: var(--font-headings);
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    line-height: 1.1;
+  }
+</style>

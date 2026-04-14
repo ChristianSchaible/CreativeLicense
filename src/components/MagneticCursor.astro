@@ -1,0 +1,233 @@
+<div class="cursor" data-cursor aria-hidden="true"></div>
+
+<script>
+  // @ts-nocheck
+  import gsap from "gsap";
+
+  const TARGET_SELECTOR = "a, button, label[for], [data-hover]";
+  const BASE_SIZE = 24;
+  const HOVER_PAD_X = 16;
+  const HOVER_PAD_Y = 10;
+
+  const supportsPointerCursor =
+    window.matchMedia("(pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!supportsPointerCursor) {
+    document.querySelectorAll("[data-cursor]").forEach((el) => {
+      if (el instanceof HTMLElement) {
+        el.style.display = "none";
+      }
+    });
+  } else {
+    const stateKey = "__magneticCursorState";
+
+    if (!window[stateKey]) {
+      window[stateKey] = {
+        initialized: false,
+        cursorEl: null,
+        setX: null,
+        setY: null,
+        setWidth: null,
+        setHeight: null,
+        setRadius: null,
+        hoverEl: null,
+        pos: { x: -100, y: -100, tx: -100, ty: -100, px: -100, py: -100 },
+        currentScale: 1,
+        targetScale: 1,
+        width: BASE_SIZE,
+        targetWidth: BASE_SIZE,
+        height: BASE_SIZE,
+        targetHeight: BASE_SIZE,
+        radius: 999,
+        targetRadius: 999,
+      };
+    }
+
+    const state = window[stateKey];
+
+    const getTarget = (node) => {
+      if (!(node instanceof Element)) return null;
+      return node.closest(TARGET_SELECTOR);
+    };
+
+    const refreshCursorEl = () => {
+      const cursors = Array.from(document.querySelectorAll("[data-cursor]"));
+      if (cursors.length > 1) {
+        cursors.slice(1).forEach((node) => node.remove());
+      }
+
+      const cursorEl = document.querySelector("[data-cursor]");
+      if (!(cursorEl instanceof HTMLElement)) return;
+
+      state.cursorEl = cursorEl;
+      state.setX = gsap.quickSetter(cursorEl, "x", "px");
+      state.setY = gsap.quickSetter(cursorEl, "y", "px");
+      state.setWidth = gsap.quickSetter(cursorEl, "width", "px");
+      state.setHeight = gsap.quickSetter(cursorEl, "height", "px");
+      state.setRadius = gsap.quickSetter(cursorEl, "borderRadius", "px");
+      cursorEl.style.display = "block";
+      document.body.classList.add("has-magnetic-cursor");
+    };
+
+    const setHoverFit = (target) => {
+      const bounds = target.getBoundingClientRect();
+      state.targetWidth = Math.max(BASE_SIZE, bounds.width + HOVER_PAD_X);
+      state.targetHeight = Math.max(BASE_SIZE, bounds.height + HOVER_PAD_Y);
+      state.targetRadius = Math.min(18, state.targetHeight * 0.28);
+      state.targetScale = 1;
+    };
+
+    if (!state.initialized) {
+      state.initialized = true;
+
+      const update = () => {
+        state.pos.x += (state.pos.tx - state.pos.x) * 0.14;
+        state.pos.y += (state.pos.ty - state.pos.y) * 0.14;
+        state.currentScale += (state.targetScale - state.currentScale) * 0.16;
+        state.width += (state.targetWidth - state.width) * 0.18;
+        state.height += (state.targetHeight - state.height) * 0.18;
+        state.radius += (state.targetRadius - state.radius) * 0.2;
+
+        const dx = state.pos.x - state.pos.px;
+        const dy = state.pos.y - state.pos.py;
+        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+        const speed = Math.min(Math.sqrt(dx * dx + dy * dy) * 0.035, 1);
+
+        state.pos.px = state.pos.x;
+        state.pos.py = state.pos.y;
+
+        if (
+          state.cursorEl &&
+          state.setX &&
+          state.setY &&
+          state.setWidth &&
+          state.setHeight &&
+          state.setRadius
+        ) {
+          state.setX(state.pos.x);
+          state.setY(state.pos.y);
+          state.setWidth(state.width);
+          state.setHeight(state.height);
+          state.setRadius(state.radius);
+
+          if (state.hoverEl) {
+            gsap.set(state.cursorEl, {
+              rotate: 0,
+              scaleX: state.currentScale,
+              scaleY: state.currentScale,
+            });
+          } else {
+            gsap.set(state.cursorEl, {
+              rotate: angle,
+              scaleX: state.currentScale + speed,
+              scaleY: state.currentScale - Math.min(speed, 0.3),
+            });
+          }
+        }
+
+        requestAnimationFrame(update);
+      };
+
+      document.addEventListener(
+        "pointerover",
+        (event) => {
+          const target = getTarget(event.target);
+          if (!target) return;
+          state.hoverEl = target;
+          setHoverFit(target);
+        },
+        true
+      );
+
+      document.addEventListener(
+        "pointerout",
+        (event) => {
+          const target = getTarget(event.target);
+          if (!target) return;
+
+          const related = event.relatedTarget;
+          if (related instanceof Node && target.contains(related)) return;
+
+          if (state.hoverEl === target) {
+            state.hoverEl = null;
+            state.targetScale = 1;
+            state.targetWidth = BASE_SIZE;
+            state.targetHeight = BASE_SIZE;
+            state.targetRadius = 999;
+          }
+
+          gsap.to(target, {
+            x: 0,
+            y: 0,
+            duration: 0.8,
+            ease: "elastic.out(1, 0.35)",
+            overwrite: true,
+          });
+        },
+        true
+      );
+
+      window.addEventListener("pointermove", (event) => {
+        if (!state.hoverEl) {
+          state.pos.tx = event.clientX;
+          state.pos.ty = event.clientY;
+          return;
+        }
+
+        const bounds = state.hoverEl.getBoundingClientRect();
+        const cx = bounds.left + bounds.width / 2;
+        const cy = bounds.top + bounds.height / 2;
+        const dx = event.clientX - cx;
+        const dy = event.clientY - cy;
+
+        setHoverFit(state.hoverEl);
+
+        state.pos.tx = cx + dx * 0.12;
+        state.pos.ty = cy + dy * 0.12;
+
+        gsap.to(state.hoverEl, {
+          x: dx * 0.2,
+          y: dy * 0.2,
+          duration: 0.8,
+          ease: "elastic.out(1, 0.35)",
+          overwrite: true,
+        });
+      });
+
+      requestAnimationFrame(update);
+    }
+
+    refreshCursorEl();
+    document.addEventListener("astro:page-load", refreshCursorEl);
+  }
+</script>
+
+<style is:global>
+  .has-magnetic-cursor,
+  .has-magnetic-cursor * {
+    cursor: none !important;
+  }
+
+  .cursor {
+    --cursor-size: 24px;
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+    border-radius: 999px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    background: var(--color-accent);
+    mix-blend-mode: difference;
+    will-change: transform;
+  }
+
+  @media (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .cursor {
+      display: none;
+    }
+  }
+</style>

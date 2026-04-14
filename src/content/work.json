@@ -1,0 +1,51 @@
+{
+  "title": "Rules of Work",
+  "description": "Rules of the Work is a hands-on workshop that invites participants to create under constraint. Instead of beginning with a blank page and endless possibility, each person starts with a rule—clear, specific, and sometimes restrictive. These rules act as both limitations and prompts, shaping the decisions that follow.The workshop is built around a simple question: how do rules impact the creative process? Rather than answering this theoretically, participants experience it directly. They are asked to make quickly, intuitively, and without overthinking, using their assigned rule as a guide. Some rules remove control, others force unpredictability, and some push participants to work in unfamiliar ways.As the session unfolds, the focus shifts from outcome to process. Participants encounter moments of friction, surprise, and discovery as they navigate their constraints. What initially feels limiting often becomes productive—forcing new ideas, unexpected compositions, and alternative ways of thinking.The workshop also creates a shared environment where multiple interpretations of the same or similar rules exist side by side. No two responses are the same. Each piece reflects not only the rule itself, but how the individual chose to follow, bend, or challenge it.Rules of the Work ultimately reframes constraint as a tool rather than a restriction. By making rules visible and intentional, the workshop encourages participants to reconsider their own creative habits—and to recognize that every act of making is already shaped by rules, whether acknowledged or not.",
+  "rules": [
+    {
+      "rule": "You cannot delete anything once it’s been placed",
+      "author": "Kristen Sauer",
+      "visualizedBy": "Erin Tumminello, Faith Wilson, and Clark Molfetta",
+      "finalOutputImage": "/images/work-04a.jpg",
+      "description": "Once something is placed, the composition must keep it in play rather than removing it.",
+      "process": "I treated every placement as permanent and built the rest of the work around what could not be erased.",
+      "images": ["/images/work-04a.jpg"]
+    },
+    {
+      "rule": "Design on a 10x10 pixel grid",
+      "author": "Kiaran Lynch",
+      "visualizedBy": "Bryce Walsh and Amanda Barros-Ayala",
+      "finalOutputImage": "/images/work-05a.jpg",
+      "description": "Use a tight pixel grid to force every decision into a controlled structure.",
+      "process": "I built the layout on a strict 10x10 grid so the structure itself could determine the final alignment.",
+      "images": ["/images/work-05a.jpg"]
+    },
+    {
+      "rule": "Use textures.",
+      "author": "Madison Tamburrini",
+      "visualizedBy": "Nikki Hirschkind and Daneisha Espinosa",
+      "finalOutputImage": "/images/work-06a.jpg",
+      "description": "Let texture become a primary part of the composition rather than a decorative afterthought.",
+      "process": "I layered in surface variation so the work carried visible tactile detail throughout.",
+      "images": ["/images/work-06a.jpg"]
+    },
+    {
+      "rule": "Don't align ANYTHING, just put everything in a random place.",
+      "author": "Jubilee Harman",
+      "visualizedBy": "Miles Kristensen, Elysia Shannon, and Molly Vanderbogart",
+      "finalOutputImage": "/images/work-07a.jpg",
+      "description": "Reject alignment and let placement happen intuitively and unpredictably.",
+      "process": "I scattered the elements without alignment and relied on randomness to create the composition.",
+      "images": ["/images/work-07a.jpg"]
+    },
+    {
+      "rule": "Create hierarchy in a design where all the text is the same font size",
+      "author": "Nicky Thomas",
+      "visualizedBy": "Cindy Shochat and Hayley Rocker",
+      "finalOutputImage": "/images/work-08a.jpg",
+      "description": "Make structure, placement, and spacing do the work of hierarchy when type size stays consistent.",
+      "process": "I used spacing, positioning, and contrast instead of size changes to establish which information mattered most.",
+      "images": ["/images/work-08a.jpg"]
+    }
+  ]
+}

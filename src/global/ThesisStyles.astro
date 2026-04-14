@@ -1,0 +1,91 @@
+---
+// Additional global styles for the thesis system
+---
+
+<style is:global>
+  /* Thesis-specific global styles */
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Typography hierarchy for thesis content */
+  .thesis-intro {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    line-height: 1.7;
+    color: var(--color-text);
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .thesis-intro h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    margin-bottom: 2rem;
+  }
+
+  /* Section spacing */
+  .category-section + .category-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Focus states for accessibility */
+  .nav-link:focus-visible,
+  .rule-card:focus-visible {
+    outline: 3px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* Loading states */
+  .image-wrapper img {
+    transition: opacity 0.3s ease;
+  }
+
+  .image-wrapper img[loading="lazy"] {
+    opacity: 0;
+  }
+
+  .image-wrapper img[loading="lazy"].loaded {
+    opacity: 1;
+  }
+
+  /* Print styles */
+  @media print {
+    .side-nav {
+      display: none;
+    }
+
+    .main-content {
+      margin-left: 0;
+    }
+
+    .rule-card {
+      break-inside: avoid;
+      border-bottom: 1px solid #000;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .nav-link {
+      border-left-width: 3px;
+    }
+
+    .rule-card {
+      border-bottom-width: 2px;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    .image-wrapper img,
+    .nav-link {
+      transition: none;
+    }
+  }
+</style>

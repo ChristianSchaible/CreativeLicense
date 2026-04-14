@@ -1,0 +1,89 @@
+---
+import Layout from "@layouts/Layoutsidenav.astro";
+import Container from "@components/Container.astro";
+import SideNav from "@components/sidenav.astro";
+---
+
+<Layout title="Astro Starter">
+  <div class="home">
+    <div class="video-container">
+      <video muted autoplay loop="myVideo">
+        <source src="creative-license.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+
+      </video>
+    </div>
+    <SideNav />
+    <div class="hero">
+      <h1 class="hero-text">Creative License</h1>
+      <div class="herodescription">
+        <p>
+          <strong>Creative License</strong> is an exploration of how rules shape the creative
+          process. This site functions as both an archive and an active
+          system—documenting outcomes while also allowing rules to operate in
+          real time. Across the work, the craft, and the self, rules act as
+          constraints, prompts, and interruptions. They guide decisions, limit
+          control, and generate unexpected results. Nothing here is neutral.
+          Every outcome is influenced by the conditions it was made under.
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.video-container video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+  .home {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+    height: 100vh;
+  }
+    .hero {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--color-accent);
+        width: 33vw;
+        text-align: justify;
+        padding: var(--padding);
+        margin: var(--margin);
+        border-radius: 5px;
+        mix-blend-mode: exclusion;
+        transition: all 0.5s ease;
+        background: rgb(34, 0, 255);
+        color: rgb(255, 255, 255);
+    }
+    .hero:hover {
+      transition: all 0.5s ease;
+
+    }
+        
+
+  .hero-text {
+    font-size: 3rem;
+    color: rgb(255, 255, 255);
+    ;
+  }
+    .herodescription {
+        font-size: 1rem;
+        max-width: 800px;
+
+    }
+
+</style>    

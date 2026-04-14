@@ -1,0 +1,365 @@
+---
+import RuleCard from "@components/RuleCard.astro";
+
+interface Rule {
+  rule: string;
+  description: string;
+  process: string;
+  author?: string;
+  visualizedBy?: string;
+  images?: string[];
+}
+
+interface Props {
+  title: string;
+  rules: Rule[];
+  section?: string;
+  description?: string;
+}
+
+
+const { title, rules, section = 'license', description } = Astro.props;
+
+const gradientPalettes: Record<string, Record<string, string>> = {
+  craft: {
+    baseA: "rgb(255 150 0)",
+    baseB: "rgb(0 0 0)",
+    g1A: "rgb(255 196 64)",
+    g1B: "rgb(0 0 0)",
+    g2A: "rgb(255 132 0)",
+    g2B: "rgb(0 0 0)",
+    g3A: "rgb(255 98 0)",
+    g3B: "rgb(0 0 0)",
+    g4A: "rgb(255 170 0)",
+    g4B: "rgb(0 0 0)",
+    accentA: "rgb(255 120 0)",
+    accentB: "rgb(0 0 0)",
+  },
+  self: {
+    baseA: "rgb(0 255 96)",
+    baseB: "rgb(0 0 0)",
+    g1A: "rgb(118 255 118)",
+    g1B: "rgb(0 0 0)",
+    g2A: "rgb(0 255 128)",
+    g2B: "rgb(0 0 0)",
+    g3A: "rgb(64 255 174)",
+    g3B: "rgb(0 0 0)",
+    g4A: "rgb(0 255 76)",
+    g4B: "rgb(0 0 0)",
+    accentA: "rgb(0 255 140)",
+    accentB: "rgb(0 0 0)",
+  },
+  work: {
+    baseA: "rgb(0 110 255)",
+    baseB: "rgb(0 0 0)",
+    g1A: "rgb(108 176 255)",
+    g1B: "rgb(0 0 0)",
+    g2A: "rgb(0 140 255)",
+    g2B: "rgb(0 0 0)",
+    g3A: "rgb(0 88 255)",
+    g3B: "rgb(0 0 0)",
+    g4A: "rgb(52 196 255)",
+    g4B: "rgb(0 0 0)",
+    accentA: "rgb(0 124 255)",
+    accentB: "rgb(0 0 0)",
+  },
+  license: {
+    baseA: "rgb(231 227 246)",
+    baseB: "rgb(0 3 45)",
+    g1A: "rgb(231 227 246)",
+    g1B: "rgb(0 3 45)",
+    g2A: "rgb(0 0 255)",
+    g2B: "rgb(0 68 255)",
+    g3A: "rgb(0 2 137)",
+    g3B: "rgb(6 87 227)",
+    g4A: "rgb(0 76 255)",
+    g4B: "rgb(0 200 255)",
+    accentA: "rgb(0 51 255)",
+    accentB: "rgb(4 134 255)",
+  },
+};
+
+const palette = gradientPalettes[section] ?? gradientPalettes.license;
+
+const descriptionColumns = (() => {
+  if (!description) return [];
+
+  const explicitBreaks = description
+    .split(/\n{2,}/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (explicitBreaks.length > 1) return explicitBreaks;
+
+  const sentenceParts =
+    description.match(/[^.!?]+[.!?]+(?:\s+|$)|[^.!?]+$/g)?.map((part) => part.trim()).filter(Boolean) ??
+    [description];
+
+  if (sentenceParts.length <= 3) return sentenceParts;
+
+  const ratios = [0.4, 0.26, 0.34];
+  const targets = ratios.map((ratio) => description.length * ratio);
+  const columns = ["", "", ""];
+  let currentCol = 0;
+  let currentLen = 0;
+
+  sentenceParts.forEach((sentence, idx) => {
+    const remainingSentences = sentenceParts.length - idx;
+    const remainingColumns = 3 - currentCol;
+    const mustAdvance = remainingSentences === remainingColumns;
+
+    if (!mustAdvance && currentCol < 2 && currentLen >= targets[currentCol]) {
+      currentCol += 1;
+      currentLen = 0;
+    }
+
+    columns[currentCol] += (columns[currentCol] ? " " : "") + sentence;
+    currentLen += sentence.length;
+  });
+
+  return columns.map((part) => part.trim()).filter(Boolean);
+})();
+---
+
+<section class={`section-layout section-layout--${section}`}>
+  <header class="section-layout__header">
+    {description && (
+      <div class="section-layout__description">
+        {descriptionColumns.map((column) => (
+          <p class="section-layout__description-column">{column}</p>
+        ))}
+      </div>
+    )}
+  </header>
+<div class="rulesection">
+<h1 class="section-layout__subtitle">Input</h1>
+<div class="section-layout__rules">
+    {rules.map((rule) => {
+      const slug = rule.rule
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-");
+      const transitionName = `rule-title-${section}-${slug}`;
+      return (
+        <RuleCard
+          rule={rule.rule}
+          description={rule.description}
+          process={rule.process}
+          author={rule.author}
+          visualizedBy={rule.visualizedBy}
+          images={rule.images}
+          href={`/${section}/${slug}`}
+          transitionName={transitionName}
+        />
+      );
+    })}
+  </div>
+
+
+</div>
+  
+</section>
+
+<style>
+  .section-layout {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .section-layout__header {
+    transform: translateY(18px);
+    animation: section-fade-up 560ms ease-out 80ms forwards;
+    background-color: var(--color-background);
+    width: 100vw;
+    border-radius: 5px;
+    align-items: center;
+    padding: var(--padding);
+  }
+
+  .section-layout__title {
+    font-family: var(--font-headings);
+    font-size: 2rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  .rulesection {
+ display: flex;
+  }
+  .section-layout__subtitle {
+    font-family: var(--font-headings);
+    font-size: 10rem;
+     writing-mode: vertical-rl;   /* makes text vertical */
+  transform: rotate(180deg);   /* flips it to read top-down */
+  --subtitle-wdth-max: 75;
+  --subtitle-wdth-min: 250;
+  --subtitle-wdth: calc(
+    var(--subtitle-wdth-max) -
+    (var(--subtitle-wdth-max) - var(--subtitle-wdth-min)) * var(--subtitle-shrink-progress, 0)
+  );
+  font-variation-settings: "wght" var(--subtitle-wdth), "wdth" var(--subtitle-wdth);
+  text-orientation: mixed;
+  text-align: right;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    background-color: rgb(0, 0, 0);
+     padding: 16px 8px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    color: white;
+    opacity: 0;
+    animation: section-fade-up-rotated 560ms ease-out 180ms forwards;
+    height: fit-content;
+    position: sticky;
+    top: 4rem;
+    margin-left: var(--margin);
+
+  }
+
+  .section-layout__description {
+    display: grid;
+    grid-template-columns: .8fr 1.25fr .5fr;
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    align-items: start;
+    color: rgb(163, 163, 163);
+    height: fit-content;
+    margin-right: 2rem;
+  }
+
+  .section-layout__description-column {
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .section-layout__rules {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @keyframes section-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes section-fade-up-rotated {
+    from {
+      opacity: 0;
+      transform: rotate(180deg) translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(180deg) translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section-layout__header,
+    .section-layout__subtitle {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .section-layout__description {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .section-layout__description-column:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .section-layout__description {
+      grid-template-columns: 1fr;
+    }
+
+    .section-layout__description-column:last-child {
+      grid-column: auto;
+    }
+  }
+
+  :global(body) {
+  min-height: 100vh;
+  margin: 0;
+  --x: calc(var(--posX, 0) * 1px);
+  --y: calc(var(--posY, 0) * 1px);
+  --grad-base-a: rgb(231 227 246);
+  --grad-base-b: rgb(0 3 45);
+  --grad-1-a: rgb(231 227 246);
+  --grad-1-b: rgb(0 3 45);
+  --grad-2-a: rgb(0 0 255);
+  --grad-2-b: rgb(0 68 255);
+  --grad-3-a: rgb(0 2 137);
+  --grad-3-b: rgb(6 87 227);
+  --grad-4-a: rgb(0 76 255);
+  --grad-4-b: rgb(0 200 255);
+  --grad-accent-a: rgb(0 51 255);
+  --grad-accent-b: rgb(4 134 255);
+  --noise-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1000' numOctaves='10' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='4000' height='4000' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E");
+  background-image: 
+    var(--noise-texture),
+    linear-gradient(115deg, var(--grad-base-a), var(--grad-base-b)), 
+    radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), var(--grad-1-a), var(--grad-1-b)), 
+    radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), var(--grad-2-a), var(--grad-2-b)), 
+    radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), var(--grad-3-a), var(--grad-3-b)), 
+    radial-gradient(100% 100% at calc(100% - var(--x)) calc(30% - var(--y)), var(--grad-4-a), var(--grad-4-b)), 
+    linear-gradient(60deg, var(--grad-accent-a), var(--grad-accent-b));
+  background-blend-mode: soft-light, overlay, overlay, difference, difference, difference, normal;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position: 0 0, center center, center center, center center, center center, center center, center center;
+  background-size: 180px 180px, cover, cover, cover, cover, cover, cover;
+  background-attachment: fixed;
+  }
+</style>
+
+<script define:vars={{ palette }}>
+  const setSubtitleShrinkFromScroll = () => {
+    const maxDistance = 420;
+    const progress = Math.min(window.scrollY / maxDistance, 1);
+    document.documentElement.style.setProperty("--subtitle-shrink-progress", progress.toFixed(3));
+  };
+
+  const applyPalette = () => {
+    const body = document.body;
+    body.style.setProperty("--grad-base-a", palette.baseA);
+    body.style.setProperty("--grad-base-b", palette.baseB);
+    body.style.setProperty("--grad-1-a", palette.g1A);
+    body.style.setProperty("--grad-1-b", palette.g1B);
+    body.style.setProperty("--grad-2-a", palette.g2A);
+    body.style.setProperty("--grad-2-b", palette.g2B);
+    body.style.setProperty("--grad-3-a", palette.g3A);
+    body.style.setProperty("--grad-3-b", palette.g3B);
+    body.style.setProperty("--grad-4-a", palette.g4A);
+    body.style.setProperty("--grad-4-b", palette.g4B);
+    body.style.setProperty("--grad-accent-a", palette.accentA);
+    body.style.setProperty("--grad-accent-b", palette.accentB);
+  };
+
+  applyPalette();
+  setSubtitleShrinkFromScroll();
+  document.addEventListener("astro:page-load", applyPalette);
+  document.addEventListener("astro:page-load", setSubtitleShrinkFromScroll);
+  window.addEventListener("scroll", setSubtitleShrinkFromScroll, { passive: true });
+
+  document.body.addEventListener("pointermove", (e) => {
+    const el = e.currentTarget;
+    if (!(el instanceof HTMLBodyElement)) return;
+    const { clientX: x, clientY: y } = e;
+    const { top: t, left: l, width: w, height: h } = el.getBoundingClientRect();
+    el.style.setProperty("--posX", String(x - l - w / 2));
+    el.style.setProperty("--posY", String(y - t - h / 2));
+  });
+</script>

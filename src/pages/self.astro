@@ -1,0 +1,12 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import SectionLayout from "@components/SectionLayout.astro";
+import content from "@content/self.json";
+---
+
+<Layout title={content.title}>
+  <Container>
+    <SectionLayout title={content.title} rules={content.rules} section="self" description={content.description} />
+  </Container>
+</Layout>

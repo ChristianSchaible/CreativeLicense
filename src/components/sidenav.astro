@@ -1,0 +1,67 @@
+---
+// Nav.astro
+const links = [
+  { label: "WORK", href: "/work" },
+  { label: "CRAFT", href: "/craft" },
+  { label: "SELF", href: "/self" 
+  },
+];
+---
+
+<nav class="side-nav">
+  {links.map((link) => (
+    <a href={link.href} class="nav-item">
+      {link.label}
+    </a>
+  ))}
+</nav>
+<style>
+.side-nav {
+  height: 50vh;
+  display: flex;
+  flex-direction: row;
+  mix-blend-mode: difference;
+
+
+}
+
+.nav-item {
+  writing-mode: vertical-rl;   /* makes text vertical */
+  transform: rotate(180deg);   /* flips it to read top-down */
+  text-orientation: mixed;
+  mix-blend-mode: hard-light;
+
+  padding: 16px 8px;
+  border: 1px solid #fff;
+    border-radius: 5px;
+
+  font-weight: bold;
+  letter-spacing: 0.05em;
+
+  text-decoration: none;
+  color: white;
+  font-family: var(--font-headings);
+  font-size: 2.5rem;
+  background: var(--color-background);
+  
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  width: fit-content; /* controls sidebar width */
+  height: calc(fit-content+16px); /* adds padding to height */
+  font-variation-settings: "wdth" 100, "wght" 100, "slnt" 0;
+  transition: all .5s ease-in-out;
+
+}
+
+.nav-item:hover {
+  background: rgb(13, 0, 255);
+  color: rgb(255, 255, 255);
+  font-variation-settings: "wdth" 900, "wght" 700, "slnt" 0;
+  padding: 16px 24px;
+  transition: all .5s ease-in-out;
+}
+
+</style>

@@ -1,0 +1,187 @@
+---
+// Navigation component with sticky behavior and mobile hamburger menu
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+const isActive = (href: string) => {
+  const normalizedHref = href.replace(/\/$/, "") || "/";
+  return currentPath === normalizedHref || (normalizedHref !== "/" && currentPath.startsWith(`${normalizedHref}/`));
+};
+---
+
+<nav class="nav" transition:persist transition:name="site-nav">
+  <div class="nav-container">
+    <a href="/" class="nav-brand">Creative Licence</a>
+
+    <!-- Hamburger menu toggle for mobile -->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+    <label for="nav-toggle" class="nav-toggle-label">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+
+    <!-- Navigation menu -->
+    <ul class="nav-menu">
+      <li>
+        <a href="/work" class={isActive("/work") ? "is-active" : undefined} aria-current={isActive("/work") ? "page" : undefined}>Work</a>
+      </li>
+      <li>
+        <a href="/craft" class={isActive("/craft") ? "is-active" : undefined} aria-current={isActive("/craft") ? "page" : undefined}>Craft</a>
+      </li>
+      <li>
+        <a href="/self" class={isActive("/self") ? "is-active" : undefined} aria-current={isActive("/self") ? "page" : undefined}>Self</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-accent);
+    z-index: 1000;
+    font-size: 1.1rem;
+  }
+
+  .nav-container {
+    max-width: var(--size-page-width);
+    margin: 0;
+    padding: 0 var(--size-page-padding);
+    display: flex;;
+    align-items: center;
+    justify-content:baseline;
+    height: 60px;
+  }
+
+  .nav-brand {
+    font-family: var(--font-headings);
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .nav-brand:hover {
+    color: var(--color-text);
+  }
+
+  /* Hamburger toggle (hidden on desktop) */
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-toggle-label {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 10px;
+  }
+
+  .nav-toggle-label span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-text);
+    margin: 3px 0;
+    transition: 0.3s;
+  }
+
+  /* Navigation menu */
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-headings);
+  }
+
+  .nav-menu li {
+    margin-left: 2rem;
+  }
+
+  .nav-menu a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-headings);
+    font-variation-settings: "wdth" 200, "wght" 400, "slnt" 0;
+  }
+
+  .nav-menu a:hover,
+  .nav-menu a.is-active,
+  .nav-menu a[aria-current="page"] {
+    color: var(--color-accent);
+    font-variation-settings: "wdth" 900, "wght" 700, "slnt" 0;
+    transition: all 0.5s
+  }
+
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .nav-toggle-label {
+      display: flex;
+    }
+
+    .nav-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: var(--color-background);
+      border-bottom: 1px solid var(--color-accent);
+      flex-direction: column;
+      padding: 1rem var(--size-page-padding);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .nav-menu li {
+      margin: 0.5rem 0;
+    }
+
+    /* Show menu when toggle is checked */
+    .nav-toggle:checked ~ .nav-menu {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Animate hamburger to X */
+    .nav-toggle:checked ~ .nav-toggle-label span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .nav-toggle:checked ~ .nav-toggle-label span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle:checked ~ .nav-toggle-label span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+  }
+</style>
+
+<script>
+  const normalizePath = (path: string) => path.replace(/\/+$/, "") || "/";
+
+  const updateActiveNavLink = () => {
+    const currentPath = normalizePath(window.location.pathname);
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>(".nav-menu a");
+
+    navLinks.forEach((link) => {
+      const hrefPath = normalizePath(new URL(link.href, window.location.origin).pathname);
+      const isActive = currentPath === hrefPath || (hrefPath !== "/" && currentPath.startsWith(`${hrefPath}/`));
+
+      link.classList.toggle("is-active", isActive);
+
+      if (isActive) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  };
+
+  updateActiveNavLink();
+  document.addEventListener("astro:page-load", updateActiveNavLink);
+</script>

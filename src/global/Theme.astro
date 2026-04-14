@@ -1,0 +1,248 @@
+---
+// we can import fonts here, after installing them via Fontsource
+// see https://fontsource.org/docs/installation for instructions
+import '@fontsource-variable/dm-sans/wght.css';
+---
+
+<style is:global>
+  /* We can use this style tag to set up colors, fonts, etc. */
+  :root {
+    --color-background: rgb(14, 14, 14);
+    --color-text: rgb(240, 240, 240);
+    --color-accent: rgb(255, 255, 255);
+    --color-focus-ring: rgb(255, 0, 255);
+
+    --font-body: 'DM Sans Variable', sans-serif;
+    --font-headings: "pressato-variable", sans-serif;
+
+    font-size: 18px;
+
+    /* These sizes are used by the Container component to set up the page container */
+    --size-page-width: 1400px;
+    --size-page-padding: 1rem;
+    --padding: 1rem;
+    --margin: 1rem;
+
+    --scrollbar-size: 14px;
+    --scrollbar-track: rgb(10, 10, 10);
+    --scrollbar-thumb-a: rgb(255, 255, 255);
+    --scrollbar-thumb-b: rgb(95, 95, 95);
+    --scrollbar-thumb-border: rgb(10, 10, 10);
+    --custom-scrollbar-rail-width: 16px;
+  }
+
+  /* We can also apply these colors as a default */
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-body);
+  }
+
+  html {
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-scrollbar {
+    position: fixed;
+    top: 16px;
+    right: 10px;
+    bottom: 16px;
+    width: var(--custom-scrollbar-rail-width);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--scrollbar-track) 70%, black);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 0 18px rgba(255, 255, 255, 0.12);
+    z-index: 9999;
+    pointer-events: auto;
+    cursor: pointer;
+    mix-blend-mode: difference;
+  }
+
+  .site-scrollbar__thumb {
+    position: absolute;
+    top: 0;
+    left: 1px;
+    right: 1px;
+    height: 48px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgb(255, 255, 255), rgb(185, 185, 185));
+    border: 1px solid var(--scrollbar-thumb-border);
+    will-change: transform, height;
+    cursor: grab;
+  }
+
+  .site-scrollbar__thumb:active {
+    cursor: grabbing;
+  }
+
+  /* Shared-element only transitions: disable global page animation */
+  ::view-transition-old(root) {
+    animation: none;
+  }
+
+  ::view-transition-new(root) {
+    animation: none;
+  }
+
+  ::view-transition-old(site-nav),
+  ::view-transition-new(site-nav) {
+    animation: none;
+  }
+
+  /* Prevent shared-element transitions from clipping while moving/scaling */
+  ::view-transition-group(*) {
+    overflow: visible;
+  }
+
+  ::view-transition-image-pair(*) {
+    overflow: visible;
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    overflow: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-accent);
+    font-family: var(--font-headings);
+  }
+
+
+  /* default focus ring styles */
+  *:focus-visible {
+    outline: 3px solid var(--color-focus-ring);
+  }
+</style>
+
+<script>
+  const setupPersistentScrollbar = () => {
+    const id = "site-scrollbar";
+    let rail = document.getElementById(id);
+    const root = document.documentElement;
+
+    if (rail && rail.dataset.initialized === "true") {
+      return;
+    }
+
+    if (!rail) {
+      rail = document.createElement("div");
+      rail.id = id;
+      rail.className = "site-scrollbar";
+
+      const thumb = document.createElement("div");
+      thumb.className = "site-scrollbar__thumb";
+      rail.appendChild(thumb);
+
+      document.body.appendChild(rail);
+    }
+
+    const thumb = rail.querySelector(".site-scrollbar__thumb");
+    if (!(thumb instanceof HTMLElement)) return;
+
+    rail.dataset.initialized = "true";
+
+    const state = {
+      dragging: false,
+      dragOffset: 0,
+    };
+
+    const updateThumb = () => {
+      const maxScroll = Math.max(root.scrollHeight - root.clientHeight, 0);
+      const trackHeight = rail.clientHeight;
+
+      if (trackHeight <= 0) return;
+
+      const thumbHeight = maxScroll === 0
+        ? trackHeight
+        : Math.max((root.clientHeight / root.scrollHeight) * trackHeight, 48);
+
+      const maxTop = Math.max(trackHeight - thumbHeight, 0);
+      const top = maxScroll === 0 ? 0 : (root.scrollTop / maxScroll) * maxTop;
+
+      thumb.style.height = `${thumbHeight}px`;
+      thumb.style.transform = `translateY(${top}px)`;
+    };
+
+    const scrollToPointer = (clientY: number) => {
+      const maxScroll = Math.max(root.scrollHeight - root.clientHeight, 0);
+      if (maxScroll === 0) return;
+
+      const trackRect = rail.getBoundingClientRect();
+      const thumbHeight = thumb.getBoundingClientRect().height;
+      const maxTop = Math.max(trackRect.height - thumbHeight, 0);
+      const pointerTop = Math.min(Math.max(clientY - trackRect.top - state.dragOffset, 0), maxTop);
+      const scrollTop = (pointerTop / maxTop) * maxScroll;
+
+      root.scrollTop = scrollTop;
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (!state.dragging) return;
+      event.preventDefault();
+      scrollToPointer(event.clientY);
+    };
+
+    const stopDragging = () => {
+      state.dragging = false;
+      document.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerup", stopDragging);
+      document.body.style.userSelect = "";
+    };
+
+    thumb.addEventListener("pointerdown", (event) => {
+      state.dragging = true;
+      const thumbRect = thumb.getBoundingClientRect();
+      state.dragOffset = event.clientY - thumbRect.top;
+      document.body.style.userSelect = "none";
+      thumb.setPointerCapture(event.pointerId);
+      document.addEventListener("pointermove", onPointerMove);
+      document.addEventListener("pointerup", stopDragging);
+      event.preventDefault();
+    });
+
+    rail.addEventListener("pointerdown", (event) => {
+      if (event.target === thumb) return;
+      const railRect = rail.getBoundingClientRect();
+      const thumbRect = thumb.getBoundingClientRect();
+      const thumbHeight = thumbRect.height;
+      const maxScroll = Math.max(root.scrollHeight - root.clientHeight, 0);
+      const maxTop = Math.max(railRect.height - thumbHeight, 0);
+      const pointerTop = Math.min(Math.max(event.clientY - railRect.top - thumbHeight / 2, 0), maxTop);
+      const scrollTop = maxTop === 0 ? 0 : (pointerTop / maxTop) * maxScroll;
+
+      root.scrollTop = scrollTop;
+      updateThumb();
+    });
+
+    updateThumb();
+    window.addEventListener("scroll", updateThumb, { passive: true });
+    window.addEventListener("resize", updateThumb);
+    document.addEventListener("astro:page-load", updateThumb);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupPersistentScrollbar, { once: true });
+  } else {
+    setupPersistentScrollbar();
+  }
+</script>

@@ -11,7 +11,7 @@ const isActive = (href: string) => {
 
 <nav class="nav" transition:persist transition:name="site-nav">
   <div class="nav-container">
-    <a href="/" class="nav-brand">Creative Licence</a>
+    <a href="/" class="nav-brand" data-magnetic>Creative Licence</a>
 
     <!-- Hamburger menu toggle for mobile -->
     <input type="checkbox" id="nav-toggle" class="nav-toggle" />
@@ -24,13 +24,13 @@ const isActive = (href: string) => {
     <!-- Navigation menu -->
     <ul class="nav-menu">
       <li>
-        <a href="/work" class={isActive("/work") ? "is-active" : undefined} aria-current={isActive("/work") ? "page" : undefined}>Work</a>
+        <a href="/work" class={isActive("/work") ? "is-active" : undefined} aria-current={isActive("/work") ? "page" : undefined} data-magnetic>Work</a>
       </li>
       <li>
-        <a href="/craft" class={isActive("/craft") ? "is-active" : undefined} aria-current={isActive("/craft") ? "page" : undefined}>Craft</a>
+        <a href="/craft" class={isActive("/craft") ? "is-active" : undefined} aria-current={isActive("/craft") ? "page" : undefined} data-magnetic>Craft</a>
       </li>
       <li>
-        <a href="/self" class={isActive("/self") ? "is-active" : undefined} aria-current={isActive("/self") ? "page" : undefined}>Self</a>
+        <a href="/self" class={isActive("/self") ? "is-active" : undefined} aria-current={isActive("/self") ? "page" : undefined} data-magnetic>Self</a>
       </li>
     </ul>
   </div>

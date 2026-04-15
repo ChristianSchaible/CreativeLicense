@@ -68,11 +68,30 @@
       state.setWidth = gsap.quickSetter(cursorEl, "width", "px");
       state.setHeight = gsap.quickSetter(cursorEl, "height", "px");
       state.setRadius = gsap.quickSetter(cursorEl, "borderRadius", "px");
+      cursorEl.style.display = "block";
+      document.body.classList.add("has-magnetic-cursor");
+    };
+
+    const resetCursorState = () => {
       state.hoverEl = null;
       state.hoverToX = null;
       state.hoverToY = null;
-      cursorEl.style.display = "block";
-      document.body.classList.add("has-magnetic-cursor");
+      state.targetScale = 1;
+      state.currentScale = 1;
+      state.targetWidth = BASE_SIZE;
+      state.targetHeight = BASE_SIZE;
+      state.targetRadius = 999;
+      state.width = BASE_SIZE;
+      state.height = BASE_SIZE;
+      state.radius = 999;
+
+      if (state.cursorEl) {
+        gsap.set(state.cursorEl, {
+          rotate: 0,
+          scaleX: 1,
+          scaleY: 1,
+        });
+      }
     };
 
     const setHoverFit = (target) => {
@@ -213,8 +232,11 @@
     }
 
     refreshCursorEl();
+    resetCursorState();
     document.addEventListener("astro:page-load", refreshCursorEl);
+    document.addEventListener("astro:page-load", resetCursorState);
     document.addEventListener("astro:after-swap", refreshCursorEl);
+    document.addEventListener("astro:after-swap", resetCursorState);
   }
 </script>
 

@@ -1,6 +1,6 @@
 {
   "title": "Rules of Work",
-  "description": "",
+  "description": "Rules of the Work is a hands-on workshop that invites participants to create under constraint. Instead of beginning with a blank page and endless possibility, each person starts with a rule—clear, specific, and sometimes restrictive. These rules act as both limitations and prompts, shaping the decisions that follow. The workshop is built around a simple question: how do rules impact the creative process? Rather than answering this theoretically, participants experience it directly. They are asked to make quickly, intuitively, and without overthinking, using their assigned rule as a guide. Some rules remove control, others force unpredictability, and some push participants to work in unfamiliar ways. As the session unfolds, the focus shifts from outcome to process. Participants encounter moments of friction, surprise, and discovery as they navigate their constraints. What initially feels limiting often becomes productive—forcing new ideas, unexpected compositions, and alternative ways of thinking. The workshop also creates a shared environment where multiple interpretations of the same or similar rules exist side by side. No two responses are the same. Each piece reflects not only the rule itself, but how the individual chose to follow, bend, or challenge it. Rules of the Work ultimately reframes constraint as a tool rather than a restriction. By making rules visible and intentional, the workshop encourages participants to reconsider their own creative habits—and to recognize that every act of making is already shaped by rules, whether acknowledged or not.",
   "rules": [
     {
       "rule": "You cannot delete anything once it’s been placed",
@@ -11,8 +11,8 @@
         "/WEBREADY RULES OF WORK/Faith.webp",
         "/WEBREADY RULES OF WORK/Clark.webp"
       ],
-      "description": "",
-      "process": ""
+      "description": "Nothing could be removed once it was placed, so every decision had to stay.",
+      "process": "The work became about reacting instead of fixing, building the composition through layering and adjustment over time."
     },
     {
       "rule": "Design on a 10x10 pixel grid",
@@ -22,16 +22,16 @@
         "/WEBREADY RULES OF WORK/Bryce.webp",
         "/WEBREADY RULES OF WORK/Amanda-ezgif.com-resize.webp"
       ],
-      "description": "",
-      "process": ""
+      "description": "Everything was constrained to a strict 10x10 grid.",
+      "process": "The limitation simplified forms and forced precise placement, pushing the design toward clarity and structure."
     },
     {
       "rule": "Use textures.",
       "author": "Madison Tamburrini",
       "visualizedBy": "Nikki Hirschkind and Daneisha Espinosa",
       "finalOutputImages": ["/WEBREADY RULES OF WORK/Nikki.webp"],
-      "description": "",
-      "process": ""
+      "description": "Focus shifted toward surface rather than flat composition.",
+      "process": "Texture became the main way to create depth and interest, using layering and contrast to build a more tactile feel."
     },
     {
       "rule": "Don't align ANYTHING, just put everything in a random place.",
@@ -42,8 +42,8 @@
         "/WEBREADY RULES OF WORK/Elysia.webp",
         "/WEBREADY RULES OF WORK/Molly.webp"
       ],
-      "description": "",
-      "process": ""
+      "description": "Alignment was removed completely.",
+      "process": "Elements were placed freely without a grid or system, relying on instinct instead of structure. Even in the randomness, relationships between elements still emerged."
     },
     {
       "rule": "Create hierarchy in a design where all the text is the same font size",
@@ -53,8 +53,8 @@
         "/WEBREADY RULES OF WORK/Hayley Rocker_Christian Thesis Poster.webp",
         "/WEBREADY RULES OF WORK/Hayley Rocker_Christian Thesis Poster 2.webp"
       ],
-      "description": "",
-      "process": ""
+      "description": "With size removed as a tool, hierarchy came from spacing, placement, and contrast.",
+      "process": "Small shifts in layout did the work of guiding attention and organizing information."
     }
   ]
 }

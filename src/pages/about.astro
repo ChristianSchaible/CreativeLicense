@@ -1,0 +1,133 @@
+---
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout title="About | Creative License">
+  <section class="about-page">
+    <header class="about-hero">
+        <h1 class="about-kicker">Creative License</p>
+      <h1 class="intro">is a thesis project about rules as creative force.</h1>
+      <p class="about-intro">
+        The site treats constraint as a method, not a limitation. Each section documents a
+        different relationship to rules, from the external structures that shape production to
+        the internal habits that guide decision-making.
+      </p>
+    </header>
+
+    <div class="about-grid">
+      <article class="about-panel">
+        <h2>What the project does</h2>
+        <p>
+          It brings together work, craft, and self-directed prompts as a single system. The
+          videos, layouts, and rule sets are meant to feel connected, so the site reads as both an
+          archive and an active process.
+        </p>
+      </article>
+
+      <article class="about-panel">
+        <h2>How to read it</h2>
+        <p>
+          Start with the main sections in the top navigation. Work shows outcomes, Craft focuses on
+          process, and Self looks at the internal rules that shape making. The page structure is
+          intentionally direct so the ideas can stay front and center.
+        </p>
+      </article>
+
+      <article class="about-panel about-panel--wide">
+        <h2>Core idea</h2>
+        <p>
+          Rules can narrow the field of possibility, but they also create momentum. By making the
+          constraints visible, the project asks how decisions change when the boundaries are clear,
+          and what kind of work appears when control is reduced.
+        </p>
+      </article>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .about-page {
+    width: min(100%, var(--size-page-width));
+    margin: 0 auto;
+    padding: clamp(1.25rem, 3vw, 2.5rem) var(--size-page-padding) 4rem;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .about-hero,
+  .about-panel {
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-inner);
+    background: rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(8px);
+  }
+
+  .about-hero {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    display: grid;
+    gap: 1rem;
+  }
+
+  .about-hero h1 {
+    margin: 0;
+    font-family: var(--font-headings);
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    max-width: 15ch;
+    font-weight: normal;
+  }
+
+    .about-kicker {
+    margin: 0;
+    color: var(--color-background);
+    font-family: var(--font-headings);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    background: white;
+    font-variation-settings: "wdth" 150, "wght" 900, "slnt" 0;
+    rotate: -2deg;
+  }
+  .about-intro,
+  .about-panel p {
+    margin: 0;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.7;
+    max-width: 70ch;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .about-panel {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .about-panel h2 {
+    margin: 0;
+    font-family: var(--font-headings);
+    font-size: 1.4rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .about-panel--wide {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 820px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about-panel--wide {
+      grid-column: auto;
+    }
+  }
+</style>

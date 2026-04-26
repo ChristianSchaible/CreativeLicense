@@ -12,7 +12,7 @@ const isActive = (href: string) => {
 
 <nav class="nav" transition:persist transition:name="site-nav">
   <div class="nav-container">
-    <a href={withBase("/")} class="nav-brand" data-magnetic>Creative Licence</a>
+    <a href={withBase("/")} class="nav-brand" data-magnetic>Creative License</a>
 
     <input
       type="checkbox"
@@ -37,6 +37,9 @@ const isActive = (href: string) => {
       </li>
       <li>
         <a href={withBase("/self")} class={isActive("/self") ? "is-active" : undefined} aria-current={isActive("/self") ? "page" : undefined} data-magnetic>Self</a>
+      </li>
+      <li>
+        <a href={withBase("/about")} class={isActive("/about") ? "is-active" : undefined} aria-current={isActive("/about") ? "page" : undefined} data-magnetic>About</a>
       </li>
     </ul>
   </div>
@@ -109,10 +112,15 @@ const isActive = (href: string) => {
     margin: 0;
     padding: 0;
     font-family: var(--font-headings);
+    flex: 1 1 auto;
   }
 
   .nav-menu li {
     margin-left: 2rem;
+  }
+
+  .nav-menu li:last-child {
+    margin-left: auto;
   }
 
   .nav-menu a {
@@ -148,6 +156,7 @@ const isActive = (href: string) => {
     }
 
     .nav-menu {
+      flex: 0 0 auto;
       position: absolute;
       top: 100%;
       left: 0;
@@ -165,6 +174,10 @@ const isActive = (href: string) => {
 
     .nav-menu li {
       margin: 0.5rem 0;
+    }
+
+    .nav-menu li:last-child {
+      margin-left: 0;
     }
 
     /* Show menu when toggle is checked */

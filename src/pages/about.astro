@@ -5,42 +5,77 @@ import Layout from "@layouts/Layout.astro";
 <Layout title="About | Creative License">
   <section class="about-page">
     <header class="about-hero">
-        <h1 class="about-kicker">Creative License</p>
+      <h1 class="about-kicker">Creative License</p>
       <h1 class="intro">is a thesis project about rules as creative force.</h1>
       <p class="about-intro">
-        The site treats constraint as a method, not a limitation. Each section documents a
-        different relationship to rules, from the external structures that shape production to
-        the internal habits that guide decision-making.
+        The site treats <strong>constraint</strong> as a method, not a <strong>limitation</strong>.
+        Each section documents a different relationship to <strong>rules</strong>, from the
+        <strong>external structures</strong> that shape production to the <strong>internal habits</strong>
+        that guide decision-making.
       </p>
+   
     </header>
+   <div class="about-question-box">
+         <h1 class="about-question"> Do rules actually limit creativity—or do they make
+          it better?
+        </h1>
 
+      </div>
     <div class="about-grid">
       <article class="about-panel">
-        <h2>What the project does</h2>
+        <h2>How it started</h2>
         <p>
-          It brings together work, craft, and self-directed prompts as a single system. The
-          videos, layouts, and rule sets are meant to feel connected, so the site reads as both an
-          archive and an active process.
+          <strong>CREATIVE LICENSE</strong> is an ongoing experiment built from <strong>rules</strong>
+          collected from students at <strong>SUNY New Paltz</strong>. Things like “Have a plan,”
+          “Don’t think, just do,” or “You can’t delete anything once it’s placed.” Instead of
+          ignoring them, I <strong>followed them</strong>. Literally.
         </p>
       </article>
 
       <article class="about-panel">
-        <h2>How to read it</h2>
+        <h2>How it works</h2>
         <p>
-          Start with the main sections in the top navigation. Work shows outcomes, Craft focuses on
-          process, and Self looks at the internal rules that shape making. The page structure is
-          intentionally direct so the ideas can stay front and center.
+          Through <strong>workshops</strong>, <strong>typographic studies</strong>, and
+          <strong>physical + digital experiments</strong>, I tested what happens when you let
+          <strong>rules</strong> take control of the process. Sometimes they worked. Sometimes they
+          completely <strong>broke the outcome</strong>. But every time, they pushed the work
+          somewhere <strong>unexpected</strong>.
         </p>
       </article>
 
-      <article class="about-panel about-panel--wide">
-        <h2>Core idea</h2>
-        <p>
-          Rules can narrow the field of possibility, but they also create momentum. By making the
-          constraints visible, the project asks how decisions change when the boundaries are clear,
-          and what kind of work appears when control is reduced.
-        </p>
-      </article>
+      <div class="about-split">
+        <article class="about-panel about-panel--split">
+          <h2>The structure</h2>
+          <div class="about-structure">
+            <p class="about-structure-lead">
+              The project is organized into three parts.
+            </p>
+            <ul class="about-structure-list">
+              <li>
+                <span class="about-structure-title"><strong>Rules of the Work</strong></span>
+                <span class="about-structure-copy"><strong>what you’re making</strong></span>
+              </li>
+              <li>
+                <span class="about-structure-title"><strong>Rules of the Craft</strong></span>
+                <span class="about-structure-copy"><strong>how you make it</strong></span>
+              </li>
+              <li>
+                <span class="about-structure-title"><strong>Rules of the Self</strong></span>
+                <span class="about-structure-copy"><strong>how you think while making it</strong></span>
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="about-panel about-panel--split">
+          <h2>What it means</h2>
+          <p>
+            This isn’t about <strong>restriction</strong>. It’s about using <strong>structure</strong>
+            as a <strong>tool</strong>. Because the truth is—you’re already following
+            <strong>rules</strong>. You just might not realize it yet.
+          </p>
+        </article>
+      </div>
     </div>
   </section>
 </Layout>
@@ -60,6 +95,14 @@ import Layout from "@layouts/Layout.astro";
     border-radius: var(--radius-inner);
     background: rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(8px);
+  }
+
+  .about-question-box {
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-inner);
+    background: rgba(0, 0, 0, 0.18);
+    padding: clamp(1rem, 2vw, 1.5rem);
+    max-width: 100%;
   }
 
   .about-hero {
@@ -88,16 +131,50 @@ import Layout from "@layouts/Layout.astro";
     background: white;
     font-variation-settings: "wdth" 150, "wght" 900, "slnt" 0;
     rotate: -2deg;
+    transition: all 0.35s ease;
+  }
+   .about-kicker:hover {
+    font-variation-settings: "wdth" 150, "wght" 500, "slnt" 0;
+    rotate: -0deg;
+    transition: all 0.35s ease;
   }
   .about-intro,
+  .about-question,
   .about-panel p {
     margin: 0;
     font-size: clamp(1rem, 1.5vw, 1.15rem);
     line-height: 1.7;
-    max-width: 70ch;
   }
 
+  .about-question {
+    font-size: 2rem;
+    font-variation-settings: "wdth" 150, "wght" 700, "slnt" 0;
+    line-height: 1.35;
+    width: fit-content;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    margin: 0 auto;
+    transition: font-variation-settings 0.35s ease;
+
+  }
+    .about-question:hover {
+    font-size: 2rem;
+    font-variation-settings: "wdth" 170, "wght" 900, "slnt" 0;
+    line-height: 1.35;
+    width: fit-content;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    margin: 0 auto;
+transition: font-variation-settings 0.35s ease;
+  }
+
+
   .about-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .about-split {
+    grid-column: 1 / -1;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
@@ -109,6 +186,48 @@ import Layout from "@layouts/Layout.astro";
     gap: 0.75rem;
   }
 
+  .about-structure {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .about-structure-lead {
+    margin: 0;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.7;
+    max-width: 38ch;
+  }
+
+  .about-structure-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .about-structure-list li {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-inner);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .about-structure-title {
+    font-family: var(--font-headings);
+    font-size: 1.25rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .about-structure-copy {
+    font-size: 0.98rem;
+    line-height: 1.45;
+    opacity: 0.9;
+  }
+
   .about-panel h2 {
     margin: 0;
     font-family: var(--font-headings);
@@ -117,8 +236,8 @@ import Layout from "@layouts/Layout.astro";
     letter-spacing: -0.02em;
   }
 
-  .about-panel--wide {
-    grid-column: 1 / -1;
+  .about-panel--split {
+    height: 100%;
   }
 
   @media (max-width: 820px) {
@@ -126,8 +245,9 @@ import Layout from "@layouts/Layout.astro";
       grid-template-columns: 1fr;
     }
 
-    .about-panel--wide {
-      grid-column: auto;
+    .about-split {
+      grid-template-columns: 1fr;
     }
   }
+
 </style>

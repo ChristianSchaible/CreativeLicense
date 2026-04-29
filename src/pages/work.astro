@@ -9,4 +9,173 @@ import content from "@content/work.json";
   <Container>
     <SectionLayout title={content.title} rules={content.rules} section="work" description={content.description} />
   </Container>
+
+  <section class="workshop-session" aria-labelledby="workshop-session-title">
+    <div class="workshop-session__hero">
+      <img src="/Workshop/IMG_3639.webp" alt="Students working together in the workshop" />
+    </div>
+
+    <div class="workshop-session__inner">
+      <div class="workshop-session__content">
+        <div class="workshop-session__copy">
+          <h2 id="workshop-session-title">Session 01</h2>
+          <p>
+            Session 01 was successful in getting participants to engage quickly and directly with
+            the idea of working under constraint. Most people understood the rules right away and
+            were willing to experiment, which led to a wide range of outcomes despite everyone
+            starting from similar conditions.
+          </p>
+        </div>
+
+        <div class="workshop-session__gallery" aria-label="Workshop session detail images">
+          <figure class="workshop-session__tile">
+            <img src="/Workshop/IMG_3648.webp" alt="Participant working at a desktop computer" />
+          </figure>
+          <figure class="workshop-session__tile">
+            <img src="/Workshop/IMG_3641.webp" alt="Participant designing on a large monitor" />
+          </figure>
+          <figure class="workshop-session__tile">
+            <img src="/Workshop/IMG_3643.webp" alt="Participant using Photoshop during the workshop" />
+          </figure>
+          <figure class="workshop-session__tile">
+            <img src="/Workshop/IMG_3651.webp" alt="Participant arranging a bright green paper composition" />
+          </figure>
+          <figure class="workshop-session__tile">
+            <img src="/Workshop/IMG_3652.webp" alt="Participant editing a design on a desktop monitor" />
+          </figure>
+          <figure class="workshop-session__tile">
+            <img src="/Workshop/IMG_3658.webp" alt="Participant making a poster layout on a computer" />
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+  <style>
+    .section-layout__description-column {
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .workshop-session {
+      width: 100%;
+      margin-top: 2.5rem;
+      padding: 0 0 4rem;
+      background: var(--background-color)
+      color: #fff;
+      z-index: 1000000;
+    }
+
+    .workshop-session__inner {
+      width: min(100%, var(--size-page-width));
+      margin: 0 auto;
+      display: grid;
+      gap: 2rem;
+    }
+
+    .workshop-session__hero {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      border-radius: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      height: clamp(140px, 42vw, 520px);
+      margin-bottom: 1.5rem;
+    }
+
+    .workshop-session__hero img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .workshop-session__content {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.6fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .workshop-session__copy {
+      padding: 1rem 0 0;
+      max-width: 28ch;
+    }
+
+    .workshop-session__copy h2 {
+      margin: 0 0 1rem;
+      font-family: var(--font-headings);
+      font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+
+    .workshop-session__copy p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.55;
+      font-size: clamp(0.9rem, 1.1vw, 1rem);
+    }
+
+    .workshop-session__gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .workshop-session__tile {
+      margin: 0;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 2px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .workshop-session__tile--tall {
+      grid-row: span 2;
+      aspect-ratio: auto;
+    }
+
+    .workshop-session__tile img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 980px) {
+      .workshop-session__hero {
+        height: clamp(220px, 52vw, 400px);
+      }
+
+      .workshop-session__content {
+        grid-template-columns: 1fr;
+      }
+
+      .workshop-session__copy {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .workshop-session__gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .workshop-session__tile--tall {
+        grid-row: auto;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .workshop-session__gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>

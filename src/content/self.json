@@ -7,15 +7,26 @@
       "author": "Jazmin Corrujedo",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "",
-      "description": "",
-      "process": "",
-      "images": []
+      "finalOutputImage": "/Self/DesignwithEmpathy_Process0.webp",
+          "finalOutputImages": [
+            "/Self/DesignwithEmpathy_Process0.webp",
+            "/Self/DesignwithEmpathy_Process_1.webp"
+          ],
+      "description": "Design With Empathy is a sticker set created as a tool for critique. Instead of focusing on surface-level opinions, it shifts feedback toward how a user actually experiences the work.",
+      "process": "I started by noticing how vague critique can be—people know something’s wrong, but don’t always know how to say it. So I turned common reactions into simple, repeatable prompts. Things like “hard to scan,” “where do I look first?” and “clear.” Those prompts became a system of stickers that can be placed directly onto work. Arrows guide attention, labels call things out, and suddenly feedback isn’t abstract anymore—it’s visible and specific.",
+          "images": [
+            "/Self/DesignwithEmpathy_Process_2.webp",
+            "/Self/DesignwithEmpathy_Process_3.webp",
+            "/Self/DesignwithEmpathy_Process_4.webp",
+            "/Self/DesignwithEmpathy_Process_5.webp"
+          ]
     },
       {
       "rule": "Have fun making it.",
       "author": "Clark Molfetta",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "",
+          "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -25,6 +36,7 @@
       "author": "Noah Ortiz",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+          "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -34,6 +46,7 @@
       "author": "Bryce Walsh",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -43,6 +56,7 @@
       "author": "Maddie Hickey",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -52,6 +66,7 @@
       "author": "Molly Vanderbogart",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -61,6 +76,7 @@
       "author": "Hayley Rocker",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -70,6 +86,7 @@
       "author": "Daneisha Espinosa",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -79,6 +96,7 @@
       "author": "Ginger Defino",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -88,6 +106,7 @@
       "author": "Christian Vitale",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -97,6 +116,7 @@
       "author": "Elysia Shannon",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -106,6 +126,7 @@
       "author": "Madison Tamburrini",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -115,6 +136,7 @@
       "author": "Faith Wilson",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -124,6 +146,7 @@
       "author": "Noah Ortiz",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -133,6 +156,7 @@
       "author": "Maddie Hickey",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -142,6 +166,7 @@
       "author": "Jazmin Corrujedo",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -151,6 +176,7 @@
       "author": "Daneisha Espinosa",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -160,6 +186,7 @@
       "author": "Christian Vitale",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -169,6 +196,7 @@
       "author": "Madison Tamburrini",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -178,6 +206,7 @@
       "author": "Faith Wilson",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -187,6 +216,7 @@
       "author": "Nikki Hirschkind",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -196,6 +226,7 @@
       "author": "Madison Tamburrini",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -205,6 +236,7 @@
       "author": "Sarah Friedlander",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -214,6 +246,7 @@
       "author": "Danielle Fiumara",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -223,6 +256,7 @@
       "author": "Nicky Thomas",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -233,6 +267,7 @@
       "author": "Emma Ferenczy",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -242,6 +277,7 @@
       "author": "Bryce Walsh",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []
@@ -251,6 +287,7 @@
       "author": "Ginger Defino",
       "visualizedBy": "Christian Schaible",
       "visualizationStatus": "TBD",
+      "finalOutputImage": "",
       "description": "",
       "process": "",
       "images": []

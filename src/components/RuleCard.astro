@@ -3,6 +3,7 @@ interface Props {
   rule: string;
   author?: string;
   visualizedBy?: string;
+  visualizationStatus?: string;
   href?: string;
   transitionName?: string;
 }
@@ -11,16 +12,18 @@ const {
   rule,
   author = "Unknown",
   visualizedBy = "Unknown",
+  visualizationStatus,
   href,
   transitionName,
 } = Astro.props;
 
-const ruleUrl = href || '#';
+const isTbd = visualizationStatus === "TBD";
 const titleId = `rule-card-${rule.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-")}`;
+const wrapperClass = isTbd ? "rule-card rule-card--disabled" : "rule-card";
 ---
 
-<a href={ruleUrl} class="rule-card-link" aria-labelledby={titleId}>
-  <article class="rule-card" transition:name={transitionName}>
+{isTbd ? (
+  <article class={wrapperClass} transition:name={transitionName} aria-labelledby={titleId} aria-disabled="true">
     <header class="rule-card__header">
       <h2 class="rule-card__title" id={titleId}>"{rule}"</h2>
     </header>
@@ -33,9 +36,37 @@ const titleId = `rule-card-${rule.toLowerCase().replace(/[^\w\s-]/g, "").replace
         <p class="rule-card__meta-label">Visualized by</p>
         <p class="rule-card__meta-value">{visualizedBy}</p>
       </div>
+      <div class="rule-card__meta-row">
+        <p class="rule-card__meta-label">Visualization status</p>
+        <p class="rule-card__meta-value">TBD</p>
+      </div>
     </section>
   </article>
-</a>
+) : (
+  <a href={href || "#"} class="rule-card-link" aria-labelledby={titleId}>
+    <article class={wrapperClass} transition:name={transitionName}>
+      <header class="rule-card__header">
+        <h2 class="rule-card__title" id={titleId}>"{rule}"</h2>
+      </header>
+      <section class="rule-card__meta" aria-label="Rule credits">
+        <div class="rule-card__meta-row">
+          <p class="rule-card__meta-label">Author of rule</p>
+          <p class="rule-card__meta-value">{author}</p>
+        </div>
+        <div class="rule-card__meta-row">
+          <p class="rule-card__meta-label">Visualized by</p>
+          <p class="rule-card__meta-value">{visualizedBy}</p>
+        </div>
+        {visualizationStatus && (
+          <div class="rule-card__meta-row">
+            <p class="rule-card__meta-label">Visualization status</p>
+            <p class="rule-card__meta-value">{visualizationStatus}</p>
+          </div>
+        )}
+      </section>
+    </article>
+  </a>
+)}
 
 <style>
   .rule-card-link {
@@ -63,6 +94,32 @@ const titleId = `rule-card-${rule.toLowerCase().replace(/[^\w\s-]/g, "").replace
     background: none;
     box-shadow: 0 14px 84px 0 rgb(255, 255, 255);
     font-variation-settings: "wght" 700, "wdth" 110, "slnt" 0;
+  }
+
+  .rule-card--disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+    filter: grayscale(1);
+  }
+
+  .rule-card--disabled:hover {
+    transform: none;
+    background: none;
+    box-shadow: none;
+    font-variation-settings: "wght" 200, "wdth" 110, "slnt" 0;
+  }
+
+  .rule-card--disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+    filter: grayscale(1);
+  }
+
+  .rule-card--disabled:hover {
+    transform: none;
+    box-shadow: none;
+    background: none;
+    font-variation-settings: "wght" 200, "wdth" 110, "slnt" 0;
   }
 
   .rule-card-link:hover,
@@ -116,6 +173,14 @@ const titleId = `rule-card-${rule.toLowerCase().replace(/[^\w\s-]/g, "").replace
     font-family: var(--font-headings);
     font-size: clamp(1rem, 1.8vw, 1.25rem);
     line-height: 1.1;
+  }
+
+  .rule-card--disabled .rule-card__meta-value {
+    opacity: 0.75;
+  }
+
+  .rule-card--disabled .rule-card__meta-value {
+    opacity: 0.75;
   }
 
   @media (prefers-reduced-motion: reduce) {

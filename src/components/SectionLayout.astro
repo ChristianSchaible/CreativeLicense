@@ -8,6 +8,7 @@ interface Rule {
   process: string;
   author?: string;
   visualizedBy?: string;
+  visualizationStatus?: string;
   images?: string[];
 }
 
@@ -150,6 +151,7 @@ const descriptionColumns = (() => {
           rule={rule.rule}
           author={rule.author}
           visualizedBy={rule.visualizedBy}
+          visualizationStatus={rule.visualizationStatus}
           href={withBase(`/${section}/${slug}`)}
           transitionName={transitionName}
         />

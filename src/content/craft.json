@@ -6,6 +6,7 @@
       "rule": "Have a plan!",
       "author": "Molly Vanderbogart",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "",
       "finalOutputImages": [
         "/WEBREADY/HaveaPlanFinalOutcome02.webp",
         "/WEBREADY/HaveAPlannedScannedEditedFInalOutcome.webp"
@@ -60,6 +61,7 @@
       "rule": "Try to recreate your creative vision as best as you can.",
       "author": "Hayley Rocker",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "",
       "finalOutputImages": [
         "/WEBREADY/CV_FinalOutcome01.webp",
         "/WEBREADY/CV_FinalOutcome2.webp"
@@ -90,28 +92,12 @@
         "/WEBREADY/CV_V22.webp"
       ]
     },
-    {
-      "rule": "Look for inspiration before you start a project",
-      "author": "Elysia Shannon",
-      "visualizedBy": "Christian Schaible",
-      "finalOutputImage": "/images/craft-06a.jpg",
-      "description": "",
-      "process": "",
-      "images": ["/images/craft-06a.jpg"]
-    },
-    {
-      "rule": "Design one step at a time, don't mix tasks.",
-      "author": "Kristen Sauer",
-      "visualizedBy": "Christian Schaible",
-      "finalOutputImage": "/images/craft-07a.jpg",
-      "description": "",
-      "process": "",
-      "images": ["/images/craft-07a.jpg"]
-    },
+
     {
       "rule": "Don't play it safe and experiment with new techniques",
       "author": "Jubilee Harman",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "",
       "finalOutputImage": "/WEBREADY/ExperimentFinal-ezgif.com-video-to-gif-converter.webp",
       "description": "A process-driven exploration combining unfamiliar materials and methods.",
       "process": "For this piece, I embraced experimentation by randomly generating three techniques: foiling, oil pastel, and collage. I began with a digital collage, converting it to black and white to prepare for toner-reactive foiling.\n\nI printed the design onto nearly 20 sheets of black cardstock, then applied foil using heat. The foil adhered to the laser-printed areas, creating a reflective, high-contrast surface.\n\nNext, I introduced oil pastel, applying it sporadically across each frame. I then physically scored another animation into the surface, carving into the layered materials to add another level of texture and disruption.\n\nAfter scanning each frame back in, I reassembled them into an animation. The final result is highly textural and immersive—the text becomes partially illegible, but the piece shifts into something that is more about sensation than readability.",
@@ -146,6 +132,7 @@
       "rule": "Map everything out first. Only focus on the fine-tuned layout last.",
       "author": "Kiaran Lynch",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "",
       "finalOutputImage": "/WEBREADY/finetunedlayout5.webp",
       "description": "Breaking down composition into modular parts before resolving the final form.",
       "process": "I approached this piece by separating the design into individual components rather than focusing on a finalized layout from the start.\n\nEach element was developed independently, allowing for flexibility and variation. I then combined these components into 13 distinct compositions, treating them like pieces of a puzzle that could be rearranged and reinterpreted.",
@@ -180,10 +167,31 @@
       "rule": "Make small things, smaller pieces and projects can inspire and change bigger ones without all the pressure.",
       "author": "Bryce Walsh",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "finalOutputImage": "/images/craft-10a.jpg",
       "description": "",
       "process": "",
       "images": ["/images/craft-10a.jpg"]
+    },
+     {
+      "rule": "Look for inspiration before you start a project",
+      "author": "Elysia Shannon",
+      "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
+      "finalOutputImage": "/images/craft-06a.jpg",
+      "description": "",
+      "process": "",
+      "images": ["/images/craft-06a.jpg"]
+    },
+    {
+      "rule": "Design one step at a time, don't mix tasks.",
+      "author": "Kristen Sauer",
+      "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
+      "finalOutputImage": "/images/craft-07a.jpg",
+      "description": "",
+      "process": "",
+      "images": ["/images/craft-07a.jpg"]
     }
   ]
 }

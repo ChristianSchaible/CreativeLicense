@@ -2,10 +2,29 @@
   "title": "Rules of Self",
   "description": "Rules of the Self focuses on the internal patterns that shape how we create. Instead of following an external instruction, this rule asks you to pay attention to your own instincts, habits, and tendencies as you work. What choices do you make automatically? What do you avoid? What feels “right” without explanation? These decisions often happen without thinking, but they form a kind of personal rule system that guides the entire process. By noticing these patterns in real time, the act of making becomes more reflective. The goal isn't to fix or change anything, but to recognize how much of the work is influenced by something internal and often invisible. Rules of the Self turns the focus inward, treating the creative process as a way of observing not just what you make, but how you make it.",
   "rules": [
+        {
+      "rule": "Design with empathy.",
+      "author": "Jazmin Corrujedo",
+      "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "",
+      "description": "",
+      "process": "",
+      "images": []
+    },
+      {
+      "rule": "Have fun making it.",
+      "author": "Clark Molfetta",
+      "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "",
+      "description": "",
+      "process": "",
+      "images": []
+    },
     {
       "rule": "Put something down, no matter how bad",
       "author": "Noah Ortiz",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -14,6 +33,7 @@
       "rule": "Make small things, smaller pieces and projects can inspire and change bigger ones without all the pressure.",
       "author": "Bryce Walsh",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -22,14 +42,7 @@
       "rule": "FUCK AROUND N' FIND OUT",
       "author": "Maddie Hickey",
       "visualizedBy": "Christian Schaible",
-      "description": "",
-      "process": "",
-      "images": []
-    },
-    {
-      "rule": "Design with empathy.",
-      "author": "Jazmin Corrujedo",
-      "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -38,6 +51,7 @@
       "rule": "Don't be afraid to start over",
       "author": "Molly Vanderbogart",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -46,6 +60,7 @@
       "rule": "Have a vision in your mind (picture your ideas clearly).",
       "author": "Hayley Rocker",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -54,6 +69,7 @@
       "rule": "Write out the jumbled mess of ideas that pop into your brain",
       "author": "Daneisha Espinosa",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -62,6 +78,7 @@
       "rule": "Create as much as you can before judging it as good or bad.",
       "author": "Ginger Defino",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -70,6 +87,7 @@
       "rule": "Don’t focus in on one idea right at the start, explore many options and ideations",
       "author": "Christian Vitale",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -78,6 +96,7 @@
       "rule": "Always ask questions",
       "author": "Elysia Shannon",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -86,6 +105,7 @@
       "rule": "Don’t think, just do.",
       "author": "Madison Tamburrini",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -94,6 +114,7 @@
       "rule": "Make sure to take a step back / a breather from your work to look at it with fresh eyes.",
       "author": "Faith Wilson",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -102,6 +123,7 @@
       "rule": "Sit on a design to see how I feel on it",
       "author": "Noah Ortiz",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -110,6 +132,7 @@
       "rule": "Just go for it, work as if you're under pressure.",
       "author": "Maddie Hickey",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -118,6 +141,7 @@
       "rule": "Does it make some people turn heads?",
       "author": "Jazmin Corrujedo",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -126,6 +150,7 @@
       "rule": "Will it please other people",
       "author": "Daneisha Espinosa",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -134,6 +159,7 @@
       "rule": "Don’t force creativity, when it’s not working take a step back and see the bigger picture",
       "author": "Christian Vitale",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -142,6 +168,7 @@
       "rule": "It has to be perfect.",
       "author": "Madison Tamburrini",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -150,6 +177,7 @@
       "rule": "I can't move onto another idea until this one is 'perfect'",
       "author": "Faith Wilson",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -158,6 +186,7 @@
       "rule": "I likely think this design is a lot worse than it really is",
       "author": "Nikki Hirschkind",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -166,6 +195,7 @@
       "rule": "Doodle like you've never doodled before.",
       "author": "Madison Tamburrini",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -174,6 +204,7 @@
       "rule": "It's good you're not the best designer in the room, how would you grow if you were?",
       "author": "Sarah Friedlander",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -182,6 +213,7 @@
       "rule": "Perfection is dull, and flaws are honest.",
       "author": "Danielle Fiumara",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -190,22 +222,17 @@
       "rule": "It's ok to ask for help when you are stuck",
       "author": "Nicky Thomas",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
     },
-    {
-      "rule": "Have fun making it.",
-      "author": "Clark Molfetta",
-      "visualizedBy": "Christian Schaible",
-      "description": "",
-      "process": "",
-      "images": []
-    },
+  
     {
       "rule": "Don't stop yourself from creating because you're scared it won't turn out 'right'. You need to create.",
       "author": "Emma Ferenczy",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -214,6 +241,7 @@
       "rule": "A sketch is a sketch, don’t be so delicate when sketching; it’s not the final product... feel free to mess it up.",
       "author": "Bryce Walsh",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
@@ -222,6 +250,7 @@
       "rule": "Create something different/unique",
       "author": "Ginger Defino",
       "visualizedBy": "Christian Schaible",
+      "visualizationStatus": "TBD",
       "description": "",
       "process": "",
       "images": []
